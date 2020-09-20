@@ -4,7 +4,7 @@
   "description": "mixing-senses.art exhibition frame",
   "main": "src/html/index.html",
   "scripts": {
-    "dev": "npx parcel src/html/index.html",
+    "dev": "NODE_ENV=development && npx parcel src/html/index.html",
     "build": "npx parcel build src/html/index.html --out-dir public/"
   },
   "repository": {
