@@ -53,7 +53,11 @@ const App = () => {
         <div className={["top", meta ? "" : "out"].join(" ")}></div>
         <div className={["bottom", meta ? "" : "out"].join(" ")}></div>
       </div>
-      <ExampleExhibit onCanvas={() => setMeta(!meta)} meta={!meta} />
+      <ExampleExhibit
+        onCanvas={() => setMeta(false)}
+        meta={!meta}
+        onBack={() => setMeta(!meta)}
+      />
     </div>
   );
 };
