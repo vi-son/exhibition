@@ -2,9 +2,10 @@
   "name": "vi.son-exhibition",
   "version": "0.0.0",
   "description": "mixing-senses.art exhibition frame",
-  "main": "src/index.js",
+  "main": "src/html/index.html",
   "scripts": {
-    "dev": "npx parcel src/html/index.html"
+    "dev": "npx parcel src/html/index.html",
+    "build": "npx parcel build src/html/index.html --out-dir public/"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,7 @@
   },
   "homepage": "https://mixing-senses.art",
   "devDependencies": {
+    "cssnano": "^4.1.10",
     "sass": "^1.26.11"
   },
   "dependencies": {
