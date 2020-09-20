@@ -1,0 +1,3 @@
+[submodule "src/sass/rouge"]
+	path = src/sass/rouge
+	url = git@github.com:vi-son/rouge.git

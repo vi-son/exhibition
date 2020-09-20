@@ -1,0 +1,29 @@
+{
+  "name": "vi.son-exhibition",
+  "version": "0.0.0",
+  "description": "mixing-senses.art exhibition frame",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "npx parcel src/html/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vi-son/exhibition.git"
+  },
+  "keywords": [],
+  "author": "Guido Schmidt <vison@guidoschmidt.cc>",
+  "license": "CC-BY-4.0",
+  "bugs": {
+    "url": "https://github.com/vi-son/exhibition/issues"
+  },
+  "homepage": "https://mixing-senses.art",
+  "devDependencies": {
+    "sass": "^1.26.11"
+  },
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
+    "three": "^0.120.1"
+  }
+}
