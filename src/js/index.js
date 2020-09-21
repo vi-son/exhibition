@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import { get } from "./api/api.js";
 
-import Lobby from "./Lobby.js";
+import Foyer from "./Foyer.js";
 import ExhibitionLayout from "./layouts/ExhibitionLayout.js";
 
 const App = () => {
@@ -30,7 +30,7 @@ const App = () => {
         })}
 
         <Route path="/">
-          <Lobby exhibitions={content} />
+          <Foyer exhibitions={content} />
         </Route>
       </Switch>
     </Router>
