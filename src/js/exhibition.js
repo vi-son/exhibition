@@ -10,24 +10,24 @@ const App = () => {
   const [meta, setMeta] = useState(true);
 
   useEffect(() => {
-    const URL = "http://127.0.0.1:8888/api";
-    const headers = new Headers();
-    headers.append(
-      "Authorization",
-      "Basic aGFydmVzdGVyQG1peGluZy1zZW5zZXMuYXJ0OiViRnM0TXI1SmNyfW9YcjVScERSQE5EcHNgUHpUYg=="
-    );
-    fetch(`${URL}/site/sections/exhibitions`, {
-      method: "GET",
-      mode: "cors",
-      cache: "default",
-      headers: headers
-    })
-      .then(r => r.json())
-      .then(json => json.data)
-      .then(data => console.log(data))
-      .catch(e => {
-        console.log(e);
-      });
+    // const URL = "http://127.0.0.1:8888/api";
+    // const headers = new Headers();
+    // headers.append(
+    //   "Authorization",
+    //   "Basic aGFydmVzdGVyQG1peGluZy1zZW5zZXMuYXJ0OiViRnM0TXI1SmNyfW9YcjVScERSQE5EcHNgUHpUYg=="
+    // );
+    // fetch(`${URL}/site/sections/exhibitions`, {
+    //   method: "GET",
+    //   mode: "cors",
+    //   cache: "default",
+    //   headers: headers
+    // })
+    //   .then(r => r.json())
+    //   .then(json => json.data)
+    //   .then(data => console.log(data))
+    //   .catch(e => {
+    //     console.log(e);
+    //   });
   }, []);
 
   return (
