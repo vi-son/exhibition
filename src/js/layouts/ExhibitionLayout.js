@@ -5,12 +5,38 @@ import { get, BASE_URL } from "../api/api.js";
 
 import "../../sass/_blocks.sass";
 
+function bold(text) {
+  const findBold = /(\*+\w+ \w+\*+)/;
+  return text.split(findBold).map((substr, i) => {
+    if (substr.includes("**")) {
+      return <b key={i}>{substr.replaceAll("**", "")}</b>;
+    } else {
+      return substr;
+    }
+  });
+}
+
+function italic(text) {
+  const findItalic = /( \*\w+ \w+\* )/;
+  return text.split(findItalic).map((substr, i) => {
+    if (substr[1] === "*") {
+      return <i key={i}>{substr.replaceAll("*", "")}</i>;
+    } else {
+      return bold(substr);
+    }
+  });
+}
+
+function kt(text) {
+  return italic(text);
+}
+
 const Textblock = ({ content }) => {
   return (
     <section className="block-text">
       <h4>{content.preheadline}</h4>
       <h2>{content.headline}</h2>
-      <article>{content.text}</article>
+      <article>{kt(content.text)}</article>
     </section>
   );
 };
@@ -33,6 +59,36 @@ const Imagegrid = ({ content }) => {
       {content.image.map(img => {
         return <img key={img.id} src={img.url} />;
       })}
+    </section>
+  );
+};
+
+const Audioblock = ({ content }) => {
+  return (
+    <section className="block-audio">
+      <audio controls>
+        <source
+          src={content.audiofile[0].url}
+          type={`${content.audiofile[0].type}/mp3`}
+        />
+      </audio>
+      <article>{content.text}</article>
+    </section>
+  );
+};
+
+const Referencesblock = ({ content }) => {
+  return (
+    <section className="block-references">
+      <ul>
+        {content.referencesruct.map(ref => {
+          return (
+            <li>
+              {ref.footnote} {ref.labeltext}
+            </li>
+          );
+        })}
+      </ul>
     </section>
   );
 };
@@ -65,6 +121,13 @@ export default ({ id }) => {
             break;
           case "imagegrid":
             return <Imagegrid key={block._uid} content={block} />;
+            break;
+          case "audioblock":
+            return <Audioblock key={block._uid} content={block} />;
+            break;
+          case "references":
+            return <Referencesblock key={block._uid} content={block} />;
+            break;
           default:
             return <section key={block._uid}>{block._key}</section>;
             break;
