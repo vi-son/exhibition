@@ -1,23 +1,46 @@
+@import ./rouge/1-settings/_colors.sass
+
+.block-text
+  .preheading,
+  .heading
+    margin: 0
+    line-height: 1.0
+    color: var(--color-darkness) 
+  .heading
+    color: var(--color-darkness) 
+    margin-bottom: 40px
+
 .block-image
   display: flex
   flex-direction: row
   justify-content: center
-  align-items: center
+  align-items: flex-end
   .left-side
     width: 60%
+    padding: 0 2rem 0 0
+    margin-bottom: 20px
     img
       width: 100%
-      padding: 5rem
       margin: 0
+      box-shadow: 0 1.5vw 3vw rgba(0, 0, 0, 0.1)
+      border: 30px solid white
   .right-side
     width: 40%
-
+    font-size: 0.9rem
+    max-width: 80ch
+    background: white
+    padding: 60px
+    border-radius: 2px
+    box-shadow: 0 1.5vw 1vw rgba(0, 0, 0, 0.05)
 
 .block-imagegrid
-  width: 100vw
+  width: 100%
   display: grid
   grid-template-columns: repeat(3, 2fr)
-  grid-gap: 5rem
+  grid-gap: 20px
   img
     width: 100%
     margin: auto 0
+    box-shadow: 0 1.5vw 3vw rgba(0, 0, 0, 0.1)
+    border-radius: 2px
+    border: 30px solid white
