@@ -51,9 +51,9 @@ body
   pointer-events: all
   padding: 80px 200px 80px 80px
   overflow: scroll-y
-  height: 100vh
+  min-height: 100vh
   &.out
-    transform: translateX(-100%)
+    transform: translateX(calc(-100% + 60px))
 
   article
     margin: 40px 0
@@ -79,7 +79,7 @@ body
   transform: translateX(0)
   pointer-events: all
   &.out
-    transform: translateX(100%)
+    transform: translateX(calc(100% - 60px))
 
 $offset: 10vh
 
@@ -94,7 +94,7 @@ $offset: 10vh
   transform: translateY(0)
   pointer-events: all
   &.out
-    transform: translateY(-100%)
+    transform: translateY(calc(-100% + 60px))
 
 .bottom
   position: fixed
@@ -107,4 +107,4 @@ $offset: 10vh
   transform: translateY(0)
   pointer-events: all
   &.out
-    transform: translateY(100%)
+    transform: translateY(calc(100% - 60px))

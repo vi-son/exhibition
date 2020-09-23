@@ -12,20 +12,21 @@ const ExampleExhibit = ({ onCanvas, onMeta, onBack, meta }) => {
     const scene = new THREE.Scene();
     // Camera
     const camera = new THREE.PerspectiveCamera(
-      90,
+      30,
       window.innerWidth / window.innerHeight,
       0.1,
       1000
     );
     // Renderer
     const renderer = new THREE.WebGLRenderer({
-      canvas: canvasRef.current
+      canvas: canvasRef.current,
+      antialias: 1.0
     });
-    renderer.setClearColor(0xad9972, 1);
+    renderer.setClearColor(0x000000, 1);
     renderer.setSize(window.innerWidth, window.innerHeight);
     // Controls
     const controls = new OrbitControls(camera, renderer.domElement);
-    controls.target.set(-2.3, 0, 2);
+    controls.target.set(0, 0, 0);
     camera.position.z = 1;
     camera.position.x = 2;
     controls.update();
@@ -33,7 +34,7 @@ const ExampleExhibit = ({ onCanvas, onMeta, onBack, meta }) => {
     const tooControls = new THREE.Vector3(0, 0, 0);
     const tooCamera = new THREE.Vector3(3, 3, 3);
     // Light
-    var light = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
+    var light = new THREE.HemisphereLight(0xffffbb, 0x080820, 3);
     scene.add(light);
     // Geometry
     var geometry = new THREE.BoxGeometry();
