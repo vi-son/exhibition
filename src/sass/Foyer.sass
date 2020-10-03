@@ -1,0 +1,42 @@
+.foyer
+  display: flex
+  flex-direction: column
+
+  .foyer-canvas-wrapper
+    width: 100vw
+    height: 100vh
+    top: 0
+    left: 0
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: flex-end
+    cursor: pointer
+    canvas
+      position: absolute
+
+    .scroll-down-button
+      display: flex
+      position: relative
+      top: -60px
+
+  .content
+    z-index: +99
+    display: inline-block
+    padding: 60px 120px 200px
+
+  .exhibition-entry
+    height: 200px
+    background: var(--color-oldsnow)
+    display: flex
+    margin-bottom: 10px
+    border-radius: 10px
+    transition: box-shadow 600ms ease
+    align-items: center
+    padding: 60px
+    h4
+      transition: color 600ms ease
+    &:hover
+      box-shadow: 0 80px 120px var(--color-dirtydarysnow-20)
+      h4
+        color: var(--color-darkness)

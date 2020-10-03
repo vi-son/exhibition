@@ -4,7 +4,11 @@ const Imagegrid = ({ content }) => {
   return (
     <section className="block-imagegrid">
       {content.image.map(img => {
-        return <img key={img.id} src={img.url} />;
+        return (
+          <a href={img.url} target="_blank">
+            <img key={img.id} src={img.url} />
+          </a>
+        );
       })}
     </section>
   );

@@ -7,7 +7,9 @@ const Imageblock = ({ content }) => {
   return (
     <section className="block-image">
       <div className="left-side">
-        <img src={imageUrl} />
+        <a href={imageUrl} target="_blank">
+          <img src={imageUrl} />
+        </a>
       </div>
       <small className="right-side">{kt(content.text)}</small>
     </section>
