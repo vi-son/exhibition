@@ -15,10 +15,26 @@
     canvas
       position: absolute
 
-    .scroll-down-button
+    .sentence
       display: flex
-      position: relative
-      top: -60px
+      position: absolute
+      top: 5vh
+      transition: opacity 300ms ease
+      &.hide
+        opacity: 0
+      &.show
+        opacity: 1
+
+    .button-wrapper
+      position: absolute
+      width: 100vw
+      top: 85vh
+      display: flex
+      justify-content: center
+
+      .scroll-down-button
+        position: static
+        display: flex
 
   .content
     z-index: +99

@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { PositionalAudioHelper } from "three/examples/jsm/helpers/PositionalAudioHelper.js";
+import TWEEN from "@tweenjs/tween.js";
 
+import useStateCallback from "./utils/useStateCallback.js";
 import { get } from "./api/api.js";
 
 import "../sass/Foyer.sass";
@@ -12,6 +14,18 @@ import "../sass/Foyer.sass";
 export default ({ exhibitions }) => {
   const canvasWrapperRef = useRef();
   const canvasRef = useRef();
+  const [sentenceIndex, setSentenceIndex] = useState(0);
+  const [sentenceShow, setSentenceShow] = useStateCallback(false);
+  const [sentences] = useState([
+    "Wie sieht eigentlich Musik aus?",
+    "Was für eine Farbe hat ein Bass?",
+    "Wer hat an der Uhr gedreht?",
+    "Dilon, you son of a bitch",
+    "Wieviel kostet ein Geld?",
+    "Wer hat die Mukke gemacht?",
+    "Wie gehts dir?",
+    "Wann gibt's Abendessen?"
+  ]);
 
   useEffect(() => {
     // Size
@@ -33,7 +47,7 @@ export default ({ exhibitions }) => {
     );
     var controls = new OrbitControls(camera, renderer.domElement);
     camera.position.set(0, 0, 8);
-    controls.autoRotate = true;
+    controls.autoRotate = false;
     controls.enableZoom = false;
     controls.enableDamping = true;
     controls.dampingFactor = 0.2;
@@ -49,6 +63,19 @@ export default ({ exhibitions }) => {
     const listener = new THREE.AudioListener();
     camera.add(listener);
 
+    // Camera Tween
+    const introDuration = 3000;
+    var from = camera.position.clone();
+    var to = new THREE.Vector3(0, 0, 20);
+    const cameraTween = new TWEEN.Tween(from)
+      .to(to, introDuration)
+      .delay(5000)
+      .easing(TWEEN.Easing.Cubic.InOut)
+      .start()
+      .onUpdate(o => {
+        camera.position.copy(from);
+      });
+
     // Sentence audio spheres
     const sentences = [
       "sentence01.mp3",
@@ -60,6 +87,8 @@ export default ({ exhibitions }) => {
       "sentence01.mp3",
       "sentence01.mp3"
     ];
+    const positions = [];
+    const cameraPositions = [];
     sentences.forEach(s => {
       const filePath = `/audio/sentences/${s}`;
       const sound = new THREE.PositionalAudio(listener);
@@ -74,6 +103,13 @@ export default ({ exhibitions }) => {
         radius * Math.sin(lat) * Math.sin(lng),
         radius * Math.cos(lng)
       );
+      const cameraPosition = new THREE.Vector3(
+        radius * 2 * Math.cos(lat) * Math.sin(lng),
+        radius * 2 * Math.sin(lat) * Math.sin(lng),
+        radius * 2 * Math.cos(lng)
+      );
+      positions.push(position);
+      cameraPositions.push(cameraPosition);
       var sphereGeometry = new THREE.SphereBufferGeometry(0.05, 32, 32);
       var sphere = new THREE.Mesh(
         sphereGeometry,
@@ -104,6 +140,47 @@ export default ({ exhibitions }) => {
       sounds.push(sound);
     });
 
+    let i = 0;
+
+    const timedOut = setTimeout(() => {
+      const duration = 5000;
+      const delay = 1000;
+      setInterval(() => {
+        var from = camera.position.clone();
+        var to = cameraPositions[i];
+        const cameraTween = new TWEEN.Tween(from)
+          .to(to, duration)
+          .easing(TWEEN.Easing.Cubic.InOut)
+          .delay(delay)
+          .start()
+          .onStart(() => {
+            setSentenceShow(false);
+          })
+          .onUpdate(o => {
+            camera.position.copy(from);
+          })
+          .onComplete(() => {
+            i = (i + 1) % positions.length;
+            setSentenceIndex(i);
+            setTimeout(() => {
+              setSentenceShow(true);
+            }, 600);
+          });
+        var fromLookAt = controls.target.clone();
+        var toLookAt = positions[i];
+        const lookAtTween = new TWEEN.Tween(fromLookAt)
+          .to(toLookAt, duration)
+          .easing(TWEEN.Easing.Cubic.InOut)
+          .delay(delay)
+          .start()
+          .onUpdate(() => {
+            controls.target = fromLookAt;
+            controls.update();
+          });
+      }, duration + 2 * delay);
+      clearTimeout(timedOut);
+    }, introDuration);
+
     // Background
     var backgroundCamera = new THREE.OrthographicCamera(
       -2 / size.width,
@@ -131,6 +208,7 @@ export default ({ exhibitions }) => {
     var render = function() {
       requestAnimationFrame(render);
       controls.update();
+      TWEEN.update();
       renderer.clear();
       renderer.render(backgroundPlane, backgroundCamera);
       renderer.render(scene, camera);
@@ -147,17 +225,25 @@ export default ({ exhibitions }) => {
     <div className="foyer">
       <div className="foyer-canvas-wrapper" ref={canvasWrapperRef}>
         <canvas ref={canvasRef} />
-        <button onClick={scrollToIntro} className="scroll-down-button">
-          Zu den Ausstellungsräumen
-        </button>
+        {sentenceShow}
+        <h2 className={["sentence", sentenceShow ? "show" : "hide"].join(" ")}>
+          {sentences[sentenceIndex]}
+          {/* {sentenceShow ? "show" : "hide"} */}
+        </h2>
+
+        <div className="button-wrapper">
+          <button onClick={scrollToIntro} className="scroll-down-button">
+            Zu den Ausstellungsräumen
+          </button>
+        </div>
       </div>
       <div className="content">
         <h1>Foyer</h1>
         <h2>Exhibition Rooms:</h2>
         {exhibitions.map(entry => {
           return (
-            <Link to={`/${entry.id}`}>
-              <div className="exhibition-entry" key={entry.id}>
+            <Link to={`/${entry.id}`} key={entry.id}>
+              <div className="exhibition-entry">
                 <h4>{entry.text}</h4>
               </div>
             </Link>
