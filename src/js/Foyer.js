@@ -17,14 +17,19 @@ export default ({ exhibitions }) => {
   const [sentenceIndex, setSentenceIndex] = useState(0);
   const [sentenceShow, setSentenceShow] = useStateCallback(false);
   const [sentences] = useState([
-    "Wie sieht eigentlich Musik aus?",
-    "Was für eine Farbe hat ein Bass?",
-    "Wer hat an der Uhr gedreht?",
-    "Dilon, you son of a bitch",
-    "Wieviel kostet ein Geld?",
-    "Wer hat die Mukke gemacht?",
-    "Wie gehts dir?",
-    "Wann gibt's Abendessen?"
+    "Findet Musik nur in meinem Kopf statt?",
+    "Werden durch Musik unterschiedliche Bilder hervorgerufen?",
+    "Wie nehmen andere Menschen Musik wahr?",
+    "Kann man Musik mit Farben verbinden?",
+    "Was kann Musik auslösen?",
+    "Wie lässt sich Kunst von Musik inspirieren?",
+    "Welche Farbe hat der Kammerton A?",
+    "Welche Klänge lassen sich schwer visualisieren?",
+    "Wie sieht der selbe Akkord auf unterschiedlichen Instrumenten aus?",
+    "Wie entstehen Farben zu unterschiedlichen Klängen",
+    "Hat jeder Ton eine zugeordnete Farbe?",
+    "Sieht Musik für jeden anders aus?",
+    "Kann man Musik nur mit dem Ohr höhren, oder gar fühlen oder sogar sehen?"
   ]);
 
   useEffect(() => {
@@ -55,21 +60,22 @@ export default ({ exhibitions }) => {
     // Center sphere
     var geometry = new THREE.SphereGeometry(0.3, 32, 32);
     var material = new THREE.MeshBasicMaterial({ color: 0x8a86bb });
-    var sphere = new THREE.Mesh(geometry, material);
-    scene.add(sphere);
+    var centerSphere = new THREE.Mesh(geometry, material);
+    scene.add(centerSphere);
 
     // Audio listener
     const sounds = [];
+    const soundDurations = [];
     const listener = new THREE.AudioListener();
     camera.add(listener);
 
     // Camera Tween
-    const introDuration = 3000;
+    const introDuration = 1500;
     var from = camera.position.clone();
     var to = new THREE.Vector3(0, 0, 20);
     const cameraTween = new TWEEN.Tween(from)
       .to(to, introDuration)
-      .delay(5000)
+      .delay(2000)
       .easing(TWEEN.Easing.Cubic.InOut)
       .start()
       .onUpdate(o => {
@@ -77,23 +83,30 @@ export default ({ exhibitions }) => {
       });
 
     // Sentence audio spheres
-    const sentences = [
-      "sentence01.mp3",
-      "sentence01.mp3",
-      "sentence01.mp3",
-      "sentence01.mp3",
-      "sentence01.mp3",
-      "sentence01.mp3",
-      "sentence01.mp3",
-      "sentence01.mp3"
+    const sentenceAudios = [
+      "intro-01.mp3",
+      "intro-03.mp3",
+      "intro-04.mp3",
+      "intro-05.mp3",
+      "intro-06.mp3",
+      "intro-11.mp3",
+      "intro-12.mp3",
+      "intro-17.mp3",
+      "intro-18.mp3",
+      "intro-19.mp3",
+      "intro-20.mp3",
+      "intro-22.mp3",
+      "intro-24.mp3"
     ];
+    let visibleAudioSphere = null;
+    const audioSpheres = [];
     const positions = [];
     const cameraPositions = [];
-    sentences.forEach(s => {
-      const filePath = `/audio/sentences/${s}`;
+    sentenceAudios.forEach(s => {
+      const filePath = `/audio/intro/${s}`;
       const sound = new THREE.PositionalAudio(listener);
       var helper = new PositionalAudioHelper(sound);
-      // sound.add(helper);
+      sound.add(helper);
       const spread = 5.0;
       const radius = 3.0;
       const lat = Math.random() * Math.PI * 2.0;
@@ -121,30 +134,33 @@ export default ({ exhibitions }) => {
         linewidth: 1
       });
       var group = new THREE.Group();
-      group.add(sound);
       group.add(sphere);
       group.position.copy(position);
       scene.add(group);
+      audioSpheres.push(group);
       // // load a sound and set it as the Audio object's buffer
       const audioLoader = new THREE.AudioLoader();
       audioLoader.load(filePath, function(buffer) {
+        soundDurations.push(buffer.duration);
         sound.setBuffer(buffer);
-        // sound.setLoop(true);
+        sound.position.copy(position);
         sound.setVolume(1.0);
         sound.setDistanceModel("exponential");
-        sound.setRolloffFactor(5.0);
-        // sound.setMaxDistance(0.01);
-        // sound.setRefDistance(1);
-        // sound.play();
+        sound.setRolloffFactor(2.0);
+        sound.setMaxDistance(0.05);
+        sound.setRefDistance(1);
       });
       sounds.push(sound);
     });
 
-    let i = 0;
+    // Sound analyzer
+    var audioAnalyser = undefined;
 
+    let i = 0;
+    let delay = 2000;
     const timedOut = setTimeout(() => {
-      const duration = 5000;
-      const delay = 1000;
+      const duration = soundDurations[i] * 1000;
+      const delay = soundDurations[i] * 1000;
       setInterval(() => {
         var from = camera.position.clone();
         var to = cameraPositions[i];
@@ -160,8 +176,13 @@ export default ({ exhibitions }) => {
             camera.position.copy(from);
           })
           .onComplete(() => {
-            i = (i + 1) % positions.length;
+            sounds[i].play();
+            audioAnalyser = new THREE.AudioAnalyser(sounds[i], 32);
+            audioAnalyser.analyser.smoothingTimeConstant = 0.98;
+            visibleAudioSphere = audioSpheres[i];
             setSentenceIndex(i);
+            // update index for the next audio
+            i = (i + 1) % positions.length;
             setTimeout(() => {
               setSentenceShow(true);
             }, 600);
@@ -173,10 +194,12 @@ export default ({ exhibitions }) => {
           .easing(TWEEN.Easing.Cubic.InOut)
           .delay(delay)
           .start()
+          .onStart(() => {})
           .onUpdate(() => {
             controls.target = fromLookAt;
             controls.update();
-          });
+          })
+          .onComplete(() => {});
       }, duration + 2 * delay);
       clearTimeout(timedOut);
     }, introDuration);
@@ -212,6 +235,14 @@ export default ({ exhibitions }) => {
       renderer.clear();
       renderer.render(backgroundPlane, backgroundCamera);
       renderer.render(scene, camera);
+
+      if (audioAnalyser !== undefined) {
+        const freq = audioAnalyser.getAverageFrequency();
+        const remapped = 0.25 + freq / 20.0;
+        const remappedCenter = Math.min(0.3 + 1.0 / (freq / 30.0), 2.0);
+        visibleAudioSphere.scale.set(remapped, remapped, remapped);
+        centerSphere.scale.set(remappedCenter, remappedCenter, remappedCenter);
+      }
     };
     render();
   }, []);
@@ -226,11 +257,13 @@ export default ({ exhibitions }) => {
       <div className="foyer-canvas-wrapper" ref={canvasWrapperRef}>
         <canvas ref={canvasRef} />
         {sentenceShow}
-        <h2 className={["sentence", sentenceShow ? "show" : "hide"].join(" ")}>
-          {sentences[sentenceIndex]}
-          {/* {sentenceShow ? "show" : "hide"} */}
-        </h2>
-
+        <div className="sentence-wrapper">
+          <h2
+            className={["sentence", sentenceShow ? "show" : "hide"].join(" ")}
+          >
+            {sentences[sentenceIndex]}
+          </h2>
+        </div>
         <div className="button-wrapper">
           <button onClick={scrollToIntro} className="scroll-down-button">
             Zu den Ausstellungsräumen
