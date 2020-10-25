@@ -64,10 +64,22 @@ export default ({ exhibitions }) => {
     scene.add(centerSphere);
 
     // Audio listener
+    const audioLoader = new THREE.AudioLoader();
     const sounds = [];
     const soundDurations = [];
     const listener = new THREE.AudioListener();
     camera.add(listener);
+
+    // Foyer music
+    const filePathFoyerMusic = "/audio/foyer/foyer-backgorund-neu-20201025.mp3";
+    var foyerMusic = new THREE.Audio(listener);
+    // load a sound and set it as the Audio object's buffer
+    audioLoader.load(filePathFoyerMusic, function(buffer) {
+      foyerMusic.setBuffer(buffer);
+      foyerMusic.setLoop(true);
+      foyerMusic.setVolume(0.05);
+      foyerMusic.play();
+    });
 
     // Camera Tween
     const introDuration = 1500;
@@ -138,8 +150,7 @@ export default ({ exhibitions }) => {
       group.position.copy(position);
       scene.add(group);
       audioSpheres.push(group);
-      // // load a sound and set it as the Audio object's buffer
-      const audioLoader = new THREE.AudioLoader();
+      // Load a sound and set it as the Audio object's buffer
       audioLoader.load(filePath, function(buffer) {
         soundDurations.push(buffer.duration);
         sound.setBuffer(buffer);
@@ -250,6 +261,7 @@ export default ({ exhibitions }) => {
       sounds.forEach(s => {
         s.pause();
       });
+      foyerMusic.pause();
     };
   }, []);
 
