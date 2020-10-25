@@ -245,6 +245,12 @@ export default ({ exhibitions }) => {
       }
     };
     render();
+
+    return () => {
+      sounds.forEach(s => {
+        s.pause();
+      });
+    };
   }, []);
 
   const scrollToIntro = () => {
