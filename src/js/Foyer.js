@@ -301,6 +301,21 @@ export default ({ exhibitions }) => {
           );
         })}
       </div>
+      <footer>
+        <main class="content">
+          <h4>Credits</h4>
+          <h5>— Sprecher <i>Sätze</i></h5>
+          <ul>
+            <li><a href="">Marvin Merkhofer</a></li>
+          </ul>
+          <h5>— kooperationen</h5>
+          <ul>
+            <li><a href="">the article</a></li>
+            <li><a href="">kirby cms</a></li>
+            <li><a href="">kunstverein hockenheim</a></li>
+          </ul>
+        </main>
+      </footer>
     </div>
   );
 };
