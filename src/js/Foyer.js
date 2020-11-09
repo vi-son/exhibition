@@ -5,10 +5,11 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { PositionalAudioHelper } from "three/examples/jsm/helpers/PositionalAudioHelper.js";
 import TWEEN from "@tweenjs/tween.js";
-
+// Local imports
 import useStateCallback from "./utils/useStateCallback.js";
 import { get } from "./api/api.js";
-
+import FoyerFooter from "./foyer/Footer.js";
+// Style imports
 import "../sass/Foyer.sass";
 
 export default ({ exhibitions }) => {
@@ -169,51 +170,51 @@ export default ({ exhibitions }) => {
 
     let i = 0;
     let delay = 2000;
-    const timedOut = setTimeout(() => {
-      const duration = soundDurations[i] * 1000;
-      const delay = soundDurations[i] * 1000;
-      setInterval(() => {
-        var from = camera.position.clone();
-        var to = cameraPositions[i];
-        const cameraTween = new TWEEN.Tween(from)
-          .to(to, duration)
-          .easing(TWEEN.Easing.Cubic.InOut)
-          .delay(delay)
-          .start()
-          .onStart(() => {
-            setSentenceShow(false);
-          })
-          .onUpdate(o => {
-            camera.position.copy(from);
-          })
-          .onComplete(() => {
-            sounds[i].play();
-            audioAnalyser = new THREE.AudioAnalyser(sounds[i], 32);
-            audioAnalyser.analyser.smoothingTimeConstant = 0.98;
-            visibleAudioSphere = audioSpheres[i];
-            setSentenceIndex(i);
-            // update index for the next audio
-            i = (i + 1) % positions.length;
-            setTimeout(() => {
-              setSentenceShow(true);
-            }, 600);
-          });
-        var fromLookAt = controls.target.clone();
-        var toLookAt = positions[i];
-        const lookAtTween = new TWEEN.Tween(fromLookAt)
-          .to(toLookAt, duration)
-          .easing(TWEEN.Easing.Cubic.InOut)
-          .delay(delay)
-          .start()
-          .onStart(() => {})
-          .onUpdate(() => {
-            controls.target = fromLookAt;
-            controls.update();
-          })
-          .onComplete(() => {});
-      }, duration + 2 * delay);
-      clearTimeout(timedOut);
-    }, introDuration);
+    // const timedOut = setTimeout(() => {
+    //   const duration = soundDurations[i] * 1000;
+    //   const delay = soundDurations[i] * 1000;
+    //   setInterval(() => {
+    //     var from = camera.position.clone();
+    //     var to = cameraPositions[i];
+    //     const cameraTween = new TWEEN.Tween(from)
+    //       .to(to, duration)
+    //       .easing(TWEEN.Easing.Cubic.InOut)
+    //       .delay(delay)
+    //       .start()
+    //       .onStart(() => {
+    //         setSentenceShow(false);
+    //       })
+    //       .onUpdate(o => {
+    //         camera.position.copy(from);
+    //       })
+    //       .onComplete(() => {
+    //         sounds[i].play();
+    //         audioAnalyser = new THREE.AudioAnalyser(sounds[i], 32);
+    //         audioAnalyser.analyser.smoothingTimeConstant = 0.98;
+    //         visibleAudioSphere = audioSpheres[i];
+    //         setSentenceIndex(i);
+    //         // update index for the next audio
+    //         i = (i + 1) % positions.length;
+    //         setTimeout(() => {
+    //           setSentenceShow(true);
+    //         }, 600);
+    //       });
+    //     var fromLookAt = controls.target.clone();
+    //     var toLookAt = positions[i];
+    //     const lookAtTween = new TWEEN.Tween(fromLookAt)
+    //       .to(toLookAt, duration)
+    //       .easing(TWEEN.Easing.Cubic.InOut)
+    //       .delay(delay)
+    //       .start()
+    //       .onStart(() => {})
+    //       .onUpdate(() => {
+    //         controls.target = fromLookAt;
+    //         controls.update();
+    //       })
+    //       .onComplete(() => {});
+    //   }, duration + 2 * delay);
+    //   clearTimeout(timedOut);
+    // }, introDuration);
 
     // Background
     var backgroundCamera = new THREE.OrthographicCamera(
@@ -237,6 +238,24 @@ export default ({ exhibitions }) => {
     var backgroundPlane = new THREE.Mesh(planeGeometry, backgroundMaterial);
     backgroundScene.add(backgroundPlane);
     renderer.autoClear = false;
+
+    function onWindowResize() {
+      if (canvasWrapperRef.current) {
+        const newSize = canvasWrapperRef.current.getBoundingClientRect();
+        camera.aspect = newSize.width / newSize.height;
+        camera.updateProjectionMatrix();
+        backgroundMaterial.uniforms.uResolution.value = new THREE.Vector2(
+          newSize.width,
+          newSize.height
+        );
+        renderer.setSize(newSize.width, newSize.height);
+      }
+    }
+    const resizeHandler = window.addEventListener(
+      "resize",
+      onWindowResize,
+      false
+    );
 
     // Render loop
     var render = function() {
@@ -262,6 +281,7 @@ export default ({ exhibitions }) => {
         s.pause();
       });
       foyerMusic.pause();
+      window.removeEventListener("resize", resizeHandler);
     };
   }, []);
 
@@ -289,8 +309,7 @@ export default ({ exhibitions }) => {
         </div>
       </div>
       <div className="content">
-        <h1>Foyer</h1>
-        <h2>Exhibition Rooms:</h2>
+        <h3>Ausstellungsräume</h3>
         {exhibitions.map(entry => {
           return (
             <Link to={`/${entry.id}`} key={entry.id}>
@@ -301,21 +320,7 @@ export default ({ exhibitions }) => {
           );
         })}
       </div>
-      <footer>
-        <main class="content">
-          <h4>Credits</h4>
-          <h5>— Sprecher <i>Sätze</i></h5>
-          <ul>
-            <li><a href="">Marvin Merkhofer</a></li>
-          </ul>
-          <h5>— kooperationen</h5>
-          <ul>
-            <li><a href="">the article</a></li>
-            <li><a href="">kirby cms</a></li>
-            <li><a href="">kunstverein hockenheim</a></li>
-          </ul>
-        </main>
-      </footer>
+      <FoyerFooter />
     </div>
   );
 };
