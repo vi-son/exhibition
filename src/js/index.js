@@ -11,8 +11,16 @@ const App = () => {
   const [content, setContent] = useState([]);
 
   useEffect(() => {
-    get("site/sections/exhibitions").then(d => {
-      setContent(d);
+    get("site/children").then(pages => {
+      console.log(pages);
+    });
+    get("site/children?select=id,title,content,blueprint").then(pages => {
+      const exhibitions = pages
+        .filter(p => p.blueprint.title === "Exhibit")
+        .sort((a, b) => {
+          return a.content.order - b.content.order;
+        });
+      setContent(exhibitions);
     });
   }, []);
 

@@ -310,11 +310,37 @@ export default ({ exhibitions }) => {
       </div>
       <div className="content">
         <h3>Ausstellungsräume</h3>
-        {exhibitions.map(entry => {
+        {exhibitions.map(exhibit => {
+          const pictureUrl =
+            exhibit.content.titleimage.length > 0
+              ? exhibit.content.titleimage[0].url
+              : "";
           return (
-            <Link to={`/${entry.id}`} key={entry.id}>
-              <div className="exhibition-entry">
-                <h4>{entry.text}</h4>
+            <Link
+              to={exhibit.content.active ? `/${exhibit.id}` : "#"}
+              key={exhibit.id}
+            >
+              <div
+                className={[
+                  "exhibition-entry",
+                  !exhibit.content.active ? "draft" : ""
+                ].join(" ")}
+              >
+                <div
+                  className="title-image"
+                  style={{
+                    backgroundImage: `url(${pictureUrl})`
+                  }}
+                ></div>
+                <div className="column">
+                  <h3 className="title">{exhibit.content.title}</h3>
+                  <article>{exhibit.content.shortdescription}</article>
+                  {exhibit.content.active ? (
+                    <></>
+                  ) : (
+                    <h6>Demnächst verfügbar</h6>
+                  )}
+                </div>
               </div>
             </Link>
           );

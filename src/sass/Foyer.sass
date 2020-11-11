@@ -52,16 +52,42 @@
 
   .exhibition-entry
     height: 200px
-    background: var(--color-oldsnow)
     display: flex
     margin-bottom: 10px
     border-radius: 10px
     transition: box-shadow 600ms ease
     align-items: center
-    padding: 60px
-    h4
-      transition: color 600ms ease
+    justify-content: center
+    flex-direction: row
+    align-items: flex-start
+    line-height: 1.4
+    background: var(--color-oldsnow)
+    overflow: hidden
     &:hover
-      box-shadow: 0 80px 120px var(--color-dirtydarysnow-20)
-      h4
+      box-shadow: 0 80px 120px var(--color-dirtysnow-20)
+    &.draft
+      background: var(--color-oldsnow)
+      color: var(--color-litte-peacock)
+      opacity: 0.3
+      &:hover
+        box-shadow: none
+        cursor: default
+
+    .title-image
+      width: 30vw
+      height: 100%
+      background-size: cover
+      background-position: center
+      background-color: var(--color-dirtysnow-20)
+
+    .column
+      padding-left: 60px
+      display: flex
+      flex-direction: column
+      justify-content: center
+      align-items: flex-start
+      flex-grow: 1
+      height: 100%
+      .title,
+      article
         color: var(--color-darkness)
