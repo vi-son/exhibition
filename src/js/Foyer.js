@@ -11,6 +11,9 @@ import { get } from "./api/api.js";
 import FoyerFooter from "./foyer/Footer.js";
 // Style imports
 import "../sass/Foyer.sass";
+// GLSL imports
+import vertexShader from "../glsl/background.vert.glsl";
+import fragmentShader from "../glsl/background.frag.glsl";
 
 export default ({ exhibitions }) => {
   const canvasWrapperRef = useRef();
@@ -227,8 +230,8 @@ export default ({ exhibitions }) => {
     );
     const backgroundScene = new THREE.Scene();
     const backgroundMaterial = new THREE.ShaderMaterial({
-      vertexShader: require("../glsl/background.vert.glsl"),
-      fragmentShader: require("../glsl/background.frag.glsl"),
+      vertexShader: vertexShader,
+      fragmentShader: fragmentShader,
       uniforms: {
         uResolution: { value: new THREE.Vector2(size.width, size.height) }
       },
