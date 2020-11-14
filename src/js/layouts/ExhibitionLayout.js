@@ -1,7 +1,8 @@
+// node_modules imports
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-import Wrapper from "../Wrapper.js";
+// Local imports
+import Wrapper from "../exhibitons/Wrapper.js";
 import Textblock from "./blocks/Textblock.js";
 import Imageblock from "./blocks/Imageblock.js";
 import Imagegrid from "./blocks/Imagegrid.js";
@@ -24,7 +25,11 @@ export default ({ id }) => {
   }, []);
 
   return (
-    <Wrapper>
+    <Wrapper
+      exhibitionComponent={
+        content.content ? content.content.exhibitioncomponent : null
+      }
+    >
       <div className="layout-exhibition">
         <Link className="button-back" to="/">
           Zurück

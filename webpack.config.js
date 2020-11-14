@@ -27,6 +27,11 @@ module.exports = env => {
     resolve: {
       extensions: [".js"],
       alias: {
+        "exhibition.logo": path.join(__dirname, "src.exhibitions/logo/src/"),
+        "exhibition.audiovisio": path.join(
+          __dirname,
+          "src.exhibitions/audiovisio/src/"
+        )
         // "@sass": path.resolve(__dirname, "src/sass/"),
         // "@glsl": path.resolve(__dirname, "src/glsl/"),
         // "@assets": path.resolve(__dirname, "assets/"),
@@ -64,6 +69,11 @@ module.exports = env => {
           ]
         },
         {
+          test: /\.(glsl|frag|vert)$/,
+          use: ["glslify-import-loader", "raw-loader", "glslify-loader"],
+          exclude: /node_modules/
+        },
+        {
           test: /\.svg$/,
           use: [
             {
@@ -76,12 +86,6 @@ module.exports = env => {
               }
             }
           ]
-        },
-
-        {
-          test: /\.(glsl|frag|vert)$/,
-          use: ["glslify-import-loader", "raw-loader", "glslify-loader"],
-          exclude: /node_modules/
         }
       ]
     },
@@ -98,7 +102,13 @@ module.exports = env => {
         path.resolve(`${__dirname}/assets/svg/favicon.svg`)
       ),
       new CopyPlugin({
-        patterns: [{ from: path.resolve(__dirname, "assets"), to: "assets" }]
+        patterns: [
+          { from: path.resolve(__dirname, "assets"), to: "assets" },
+          {
+            from: path.resolve(__dirname, "src.exhibitions/logo/assets"),
+            to: "assets"
+          }
+        ]
       }),
       new WorkboxPlugin.GenerateSW({
         swDest: "sw.js",

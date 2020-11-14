@@ -1,19 +1,19 @@
+// node_modules imports
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
+// Local imports
 import { get } from "./api/api.js";
-
-import Foyer from "./Foyer.js";
+import Foyer from "./foyer/Foyer.js";
 import ExhibitionLayout from "./layouts/ExhibitionLayout.js";
+// Style imports
+import "../sass/ExampleExhibit.sass";
 
 const App = () => {
   const [content, setContent] = useState([]);
 
   useEffect(() => {
-    get("site/children").then(pages => {
-      console.log(pages);
-    });
+    get("site/children").then(pages => {});
     get("site/children?select=id,title,content,blueprint").then(pages => {
       const exhibitions = pages
         .filter(p => p.blueprint.title === "Exhibit")
@@ -26,8 +26,6 @@ const App = () => {
 
   return (
     <Router>
-      {/* <div className="app">{JSON.stringify(content)}</div> */}
-
       <Switch>
         {content.map(c => {
           return (

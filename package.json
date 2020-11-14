@@ -2,7 +2,7 @@
   "name": "vi.son-exhibition",
   "version": "0.0.0",
   "description": "mixing-senses.art exhibition frame",
-  "main": "src/html/index.html",
+  "main": "src/js/index.html",
   "scripts": {
     "dev": "npx webpack-dev-server --open --hot --mode development --env.NODE_ENV=development",
     "build": "npx parcel build src/html/index.html --out-dir public/"
@@ -35,8 +35,11 @@
     "glslify-import-loader": "^0.1.2",
     "glslify-loader": "^2.0.0",
     "html-webpack-plugin": "^4.5.0",
+    "p5": "^1.1.9",
     "parcel-plugin-static-files-copy": "^2.5.0",
+    "poisson-disk-sampling": "^2.2.2",
     "raw-loader": "^4.0.2",
+    "react-svg-loader": "^3.0.3",
     "sass": "^1.26.11",
     "sass-loader": "^10.1.0",
     "style-loader": "^2.0.0",
@@ -46,6 +49,7 @@
     "workbox-webpack-plugin": "^5.1.4"
   },
   "dependencies": {
+    "@loadable/component": "^5.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",

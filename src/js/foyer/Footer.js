@@ -1,4 +1,7 @@
+// node_modules imports
 import React from "react";
+// SVG imports
+import MixingSenses from "../../../assets/svg/mixing-senses.svg";
 // Style imports
 import "../../sass/foyer/Footer.sass";
 
@@ -59,6 +62,9 @@ const FoyerFooter = () => {
           </li>
         </ul>
       </small>
+      <div className="logo-wrapper">
+        <MixingSenses />
+      </div>
       <small className="copyright">2020 • mixing-senses.art</small>
     </footer>
   );

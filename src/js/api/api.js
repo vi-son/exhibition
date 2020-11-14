@@ -1,5 +1,5 @@
 const BASE_URL_PRD = "https://mixing-senses.art/api";
-const BASE_URL_DEV = BASE_URL_PRD; //"http://localhost:8888/api";
+const BASE_URL_DEV = "http://localhost:8888/api";
 
 const BASE_URL =
   process.env.NODE_ENV === "production" ? BASE_URL_PRD : BASE_URL_DEV;
@@ -20,7 +20,6 @@ function get(route) {
     .then(r => r.json())
     .then(json => json.data)
     .then(d => {
-      console.log(d);
       return d;
     });
 }

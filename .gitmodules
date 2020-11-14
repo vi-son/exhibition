@@ -1,3 +1,12 @@
 [submodule "src/sass/rouge"]
 	path = src/sass/rouge
 	url = git@github.com:vi-son/rouge.git
+[submodule "src/js/exhibitons/audiovis-io"]
+	path = src/js/exhibitons/audiovis-io
+	url = git@github.com:vi-son/audiovis-i.o.git
+[submodule "src.exhibitions/logo"]
+	path = src.exhibitions/logo
+	url = git@github.com:vi-son/logo.git
+[submodule "src.exhibitions/audiovisio"]
+	path = src.exhibitions/audiovisio
+	url = git@github.com:vi-son/audiovis-i.o.git

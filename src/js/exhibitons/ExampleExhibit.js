@@ -2,9 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
-import "../sass/ExampleExhibit.sass";
-
-const ExampleExhibit = ({ onCanvas, onMeta, onBack, meta }) => {
+const ExampleExhibit = ({ onEnter, onMeta, onBack, meta }) => {
   const canvasRef = useRef();
 
   useEffect(() => {
@@ -54,10 +52,10 @@ const ExampleExhibit = ({ onCanvas, onMeta, onBack, meta }) => {
 
   return (
     <>
-      <div className="canvas-wrapper" onClick={onCanvas}>
-        <canvas ref={canvasRef}></canvas>
+      <div className="canvas-wrapper" onClick={onEnter}>
+        {/* <canvas ref={canvasRef}></canvas> */}
       </div>
-      <button onClick={() => onBack()}>Back</button>
+      <button onClick={() => onBack()}>Zurück</button>
     </>
   );
 };

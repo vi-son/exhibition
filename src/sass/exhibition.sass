@@ -44,7 +44,6 @@ body
   pointer-events: none
 
 .left
-  background: var(--color-snow)
   transition: transform 1s ease
   transform: translateX(0)
   cursor: default
@@ -52,6 +51,7 @@ body
   padding: 80px 200px 80px 80px
   overflow: scroll-y
   min-height: 100vh
+  background: white
   &.out
     transform: translateX(calc(-100% + 60px))
 
@@ -74,7 +74,7 @@ body
 .right
   grid-column: 3
   height: 100%
-  background: var(--color-snow)
+  background: white
   transition: transform 1s ease
   transform: translateX(0)
   pointer-events: all
@@ -88,7 +88,7 @@ $offset: 10vh
   width: 100vw
   height: calc(( (100vh - 30vw) / 2) + #{$offset})
   top: 0
-  background: var(--color-snow)
+  background: white
   z-index: -1
   transition: transform 1s ease
   transform: translateY(0)
@@ -101,10 +101,18 @@ $offset: 10vh
   width: 100vw
   height: calc(( (100vh - 30vw) / 2) - #{$offset})
   bottom: 0
-  background: var(--color-snow)
+  background: white
   z-index: -1
   transition: transform 1s ease
   transform: translateY(0)
   pointer-events: all
   &.out
     transform: translateY(calc(100% - 60px))
+
+iframe
+  position: fixed
+  width: 100vw
+  height: 100vh
+  top: 0
+  left: 0
+  z-index: 999

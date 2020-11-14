@@ -6,14 +6,16 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { PositionalAudioHelper } from "three/examples/jsm/helpers/PositionalAudioHelper.js";
 import TWEEN from "@tweenjs/tween.js";
 // Local imports
-import useStateCallback from "./utils/useStateCallback.js";
-import { get } from "./api/api.js";
-import FoyerFooter from "./foyer/Footer.js";
+import useStateCallback from "../utils/useStateCallback.js";
+import { get } from "../api/api.js";
+import FoyerFooter from "./Footer.js";
+// SVG imports
+import VisonMixingSenses from "../../../assets/svg/vi.son-mixing-senses.svg";
 // Style imports
-import "../sass/Foyer.sass";
+import "../../sass/Foyer.sass";
 // GLSL imports
-import vertexShader from "../glsl/background.vert.glsl";
-import fragmentShader from "../glsl/background.frag.glsl";
+import vertexShader from "../../glsl/background.vert.glsl";
+import fragmentShader from "../../glsl/background.frag.glsl";
 
 export default ({ exhibitions }) => {
   const canvasWrapperRef = useRef();
@@ -55,11 +57,11 @@ export default ({ exhibitions }) => {
       1000
     );
     var controls = new OrbitControls(camera, renderer.domElement);
-    camera.position.set(0, 0, 8);
+    camera.position.set(0, 0, 12);
     controls.autoRotate = false;
     controls.enableZoom = false;
     controls.enableDamping = true;
-    controls.dampingFactor = 0.2;
+    controls.dampingFactor = 0.9;
 
     // Center sphere
     var geometry = new THREE.SphereGeometry(0.3, 32, 32);
@@ -75,7 +77,8 @@ export default ({ exhibitions }) => {
     camera.add(listener);
 
     // Foyer music
-    const filePathFoyerMusic = "/audio/foyer/foyer-backgorund-neu-20201025.mp3";
+    const filePathFoyerMusic =
+      "/assets/mp3/foyer/foyer-backgorund-20201025.mp3";
     var foyerMusic = new THREE.Audio(listener);
     // load a sound and set it as the Audio object's buffer
     audioLoader.load(filePathFoyerMusic, function(buffer) {
@@ -86,40 +89,38 @@ export default ({ exhibitions }) => {
     });
 
     // Camera Tween
-    const introDuration = 1500;
-    var from = camera.position.clone();
-    var to = new THREE.Vector3(0, 0, 20);
-    const cameraTween = new TWEEN.Tween(from)
-      .to(to, introDuration)
-      .delay(2000)
-      .easing(TWEEN.Easing.Cubic.InOut)
-      .start()
-      .onUpdate(o => {
-        camera.position.copy(from);
-      });
-
+    // const introDuration = 1500;
+    // var from = camera.position.clone();
+    // var to = new THREE.Vector3(0, 0, 20);
+    // const cameraTween = new TWEEN.Tween(from)
+    //   .to(to, introDuration)
+    //   .delay(2000)
+    //   .easing(TWEEN.Easing.Cubic.InOut)
+    //   .start()
+    //   .onUpdate(o => {
+    //     camera.position.copy(from);
+    //   });
     // Sentence audio spheres
     const sentenceAudios = [
-      "intro-01.mp3",
-      "intro-03.mp3",
-      "intro-04.mp3",
-      "intro-05.mp3",
-      "intro-06.mp3",
-      "intro-11.mp3",
-      "intro-12.mp3",
-      "intro-17.mp3",
-      "intro-18.mp3",
-      "intro-19.mp3",
-      "intro-20.mp3",
-      "intro-22.mp3",
-      "intro-24.mp3"
+      "fragen-und-statements-01.mp3",
+      "fragen-und-statements-02.mp3",
+      "fragen-und-statements-03.mp3",
+      "fragen-und-statements-04.mp3",
+      "fragen-und-statements-05.mp3",
+      "fragen-und-statements-06.mp3",
+      "fragen-und-statements-07.mp3",
+      "fragen-und-statements-08.mp3",
+      "fragen-und-statements-09.mp3",
+      "fragen-und-statements-10.mp3",
+      "fragen-und-statements-11.mp3",
+      "fragen-und-statements-12.mp3"
     ];
     let visibleAudioSphere = null;
     const audioSpheres = [];
     const positions = [];
     const cameraPositions = [];
     sentenceAudios.forEach(s => {
-      const filePath = `/audio/intro/${s}`;
+      const filePath = `/assets/mp3/intro/${s}`;
       const sound = new THREE.PositionalAudio(listener);
       var helper = new PositionalAudioHelper(sound);
       sound.add(helper);
@@ -153,6 +154,10 @@ export default ({ exhibitions }) => {
       group.add(sphere);
       group.position.copy(position);
       scene.add(group);
+      group.offset = Math.random() * Math.PI * 2.0;
+      group.direction = Math.random() > 0.5 ? -1 : 1;
+      group.speed = Math.random() * 50.0;
+      group.lng = Math.random() * Math.PI;
       audioSpheres.push(group);
       // Load a sound and set it as the Audio object's buffer
       audioLoader.load(filePath, function(buffer) {
@@ -169,7 +174,7 @@ export default ({ exhibitions }) => {
     });
 
     // Sound analyzer
-    var audioAnalyser = undefined;
+    // var audioAnalyser = undefined;
 
     let i = 0;
     let delay = 2000;
@@ -261,6 +266,8 @@ export default ({ exhibitions }) => {
     );
 
     // Render loop
+    const clock = new THREE.Clock();
+    let dt = clock.getElapsedTime();
     var render = function() {
       requestAnimationFrame(render);
       controls.update();
@@ -269,13 +276,29 @@ export default ({ exhibitions }) => {
       renderer.render(backgroundPlane, backgroundCamera);
       renderer.render(scene, camera);
 
-      if (audioAnalyser !== undefined) {
-        const freq = audioAnalyser.getAverageFrequency();
-        const remapped = 0.25 + freq / 20.0;
-        const remappedCenter = Math.min(0.3 + 1.0 / (freq / 30.0), 2.0);
-        visibleAudioSphere.scale.set(remapped, remapped, remapped);
-        centerSphere.scale.set(remappedCenter, remappedCenter, remappedCenter);
-      }
+      dt = clock.getElapsedTime();
+      audioSpheres.forEach(s => {
+        const position = new THREE.Vector3(
+          s.direction *
+            3.0 *
+            Math.cos(dt / s.speed + s.offset) *
+            Math.sin(s.lng),
+          s.direction *
+            3.0 *
+            Math.sin(dt / s.speed + s.offset) *
+            Math.sin(s.lng),
+          s.direction * 3.0 * Math.cos(s.lng)
+        );
+        s.position.copy(position);
+      });
+
+      // if (audioAnalyser !== undefined) {
+      //   const freq = audioAnalyser.getAverageFrequency();
+      //   const remapped = 0.25 + freq / 20.0;
+      //   const remappedCenter = Math.min(0.3 + 1.0 / (freq / 30.0), 2.0);
+      //   visibleAudioSphere.scale.set(remapped, remapped, remapped);
+      //   centerSphere.scale.set(remappedCenter, remappedCenter, remappedCenter);
+      // }
     };
     render();
 
@@ -296,6 +319,9 @@ export default ({ exhibitions }) => {
   return (
     <div className="foyer">
       <div className="foyer-canvas-wrapper" ref={canvasWrapperRef}>
+        <div className="top-logo-wrapper">
+          <VisonMixingSenses />
+        </div>
         <canvas ref={canvasRef} />
         {sentenceShow}
         <div className="sentence-wrapper">
