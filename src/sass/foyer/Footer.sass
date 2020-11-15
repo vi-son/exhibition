@@ -1,16 +1,30 @@
 .foyer-footer
-  padding: 60px 120px 200px
+  padding: 60px 20vw 200px
   display: flex
   flex-direction: column
   h3, h5, ul, li, a
     color: var(--color-darkness)
   .columns
     display: grid
-    width: 100%
-    grid-template-columns: repeat(3, 1fr)
+    grid-template-columns: repeat(2, 1fr)
+    grid-gap: 60px
     .list
       margin-left: 10px
       opacity: 0.75
+
+      li
+        display: flex
+        align-items: center
+        height: 24px
+        .icon
+          display: flex
+          justify-content: center
+          align-items: center
+          width: 24px
+          height: 24px
+          &:hover
+            svg
+              fill: var(--color-curacao)
 
   .legal
     width: 30ch
