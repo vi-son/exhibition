@@ -7,7 +7,7 @@ import loadable from "@loadable/component";
 import "../../sass/exhibition.sass";
 // Artwork imports
 import Artwork from "./Artwork.js";
-// import Logo from "artwork.logo/js/index.js";
+import Logo from "artwork.logo/js/Logo.js";
 // import AudiovisIO from "artwork.audiovisio/js/Audiovis.IO.js";
 
 const Wrapper = ({ children, exhibitionComponent }) => {
@@ -17,7 +17,7 @@ const Wrapper = ({ children, exhibitionComponent }) => {
     switch (exhibitionComponent) {
       case "Logo":
         return (
-          <Artwork
+          <Logo
             onEnter={() => setMeta(false)}
             entered={!meta}
             onBack={() => setMeta(!meta)}

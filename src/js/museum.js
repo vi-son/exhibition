@@ -12,7 +12,26 @@ import "../sass/ExampleExhibit.sass";
 const Museum = () => {
   const [content, setContent] = useState([]);
 
+  const initServiceWorker = () => {
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+          .register("/sw.js")
+          .then(registration => {
+            console.log("Serviceworker registered: ", registration);
+          })
+          .catch(registrationError => {
+            console.log(
+              "Serviceworker registration failed: ",
+              registrationError
+            );
+          });
+      });
+    }
+  };
+
   useEffect(() => {
+    initServiceWorker();
     get("site/children").then(pages => {});
     get("site/children?select=id,title,content,blueprint").then(pages => {
       const exhibitions = pages
