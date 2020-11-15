@@ -13,7 +13,7 @@ import Artwork from "./Artwork.js";
 const Wrapper = ({ children, exhibitionComponent }) => {
   const [meta, setMeta] = useState(true);
 
-  const Artwork = () => {
+  const SelectedArtwork = () => {
     switch (exhibitionComponent) {
       case "Logo":
         return (
@@ -23,25 +23,20 @@ const Wrapper = ({ children, exhibitionComponent }) => {
             onBack={() => setMeta(!meta)}
           />
         );
+        break;
       case "AudiovisIO":
         return (
           <Artwork
             onEnter={() => setMeta(false)}
             entered={true}
-            goBack={() => {
-              console.log("Back?", meta);
-              setMeta(true);
-            }}
+            onBack={() => setMeta(true)}
           />
         );
+        break;
       default:
         return <div>No Content.</div>;
     }
   };
-
-  useEffect(() => {
-    console.log(meta);
-  }, [meta]);
 
   return (
     <div className="exhibition">
@@ -51,7 +46,7 @@ const Wrapper = ({ children, exhibitionComponent }) => {
         <div className={["top", meta ? "" : "out"].join(" ")}></div>
         <div className={["bottom", meta ? "" : "out"].join(" ")}></div>
       </div>
-      <Artwork />
+      <SelectedArtwork />
     </div>
   );
 };
