@@ -303,6 +303,12 @@ export default ({ exhibitions }) => {
     render();
 
     return () => {
+      while (scene.children.length > 0) {
+        scene.remove(scene.children[0]);
+      }
+      while (backgroundScene.children.length > 0) {
+        backgroundScene.remove(backgroundScene.children[0]);
+      }
       sounds.forEach(s => {
         s.pause();
       });
@@ -319,10 +325,10 @@ export default ({ exhibitions }) => {
   return (
     <div className="foyer">
       <div className="foyer-canvas-wrapper" ref={canvasWrapperRef}>
+        <canvas ref={canvasRef}></canvas>
         <div className="top-logo-wrapper">
           <VisonMixingSenses />
         </div>
-        <canvas ref={canvasRef} />
         {sentenceShow}
         <div className="sentence-wrapper">
           <h2

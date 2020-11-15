@@ -21,7 +21,7 @@ const Wrapper = ({ children, exhibitionComponent }) => {
         return (
           <Logo
             onEnter={() => setMeta(false)}
-            meta={!meta}
+            entered={!meta}
             onBack={() => setMeta(!meta)}
           />
         );
