@@ -4,3 +4,6 @@
 [submodule "src/rooms/logo"]
 	path = src/rooms/logo
 	url = git@github.com:vi-son/logo.git
+[submodule "src/src/artworks/audiovisio"]
+	path = src/src/artworks/audiovisio
+	url = git@github.com:vi-son/audiovis-i.o.git
