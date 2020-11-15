@@ -6,7 +6,7 @@ import Wrapper from "../exhibitons/Wrapper.js";
 import Textblock from "./blocks/Textblock.js";
 import Imageblock from "./blocks/Imageblock.js";
 import Imagegrid from "./blocks/Imagegrid.js";
-import Audioblock 
+import Audioblock from "./blocks/Audioblock.js";
 import Referencesblock from "./blocks/Referencesblock.js";
 
 import { get, BASE_URL } from "../api/api.js";

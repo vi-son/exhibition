@@ -7,3 +7,9 @@
 [submodule "src/src/artworks/audiovisio"]
 	path = src/src/artworks/audiovisio
 	url = git@github.com:vi-son/audiovis-i.o.git
+[submodule "src/artworks/logo"]
+	path = src/artworks/logo
+	url = git@github.com:vi-son/logo.git
+[submodule "src/artworks/audiovisio"]
+	path = src/artworks/audiovisio
+	url = git@github.com:vi-son/audiovis-i.o.git
