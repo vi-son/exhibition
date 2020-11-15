@@ -16,10 +16,10 @@ module.exports = env => {
       historyApiFallback: true
     },
     entry: {
-      index: path.resolve(__dirname, "src/js/index.js")
+      index: path.resolve(__dirname, "src/js/museum.js")
     },
     output: {
-      path: path.resolve(__dirname, "dist"),
+      path: path.resolve(__dirname, "build/"),
       publicPath: "/",
       filename: "[name].bundle.js",
       chunkFilename: "[name].bundle.js"
@@ -27,17 +27,11 @@ module.exports = env => {
     resolve: {
       extensions: [".js"],
       alias: {
-        "exhibition.logo": path.join(__dirname, "src.exhibitions/logo/src/"),
-        "exhibition.audiovisio": path.join(
+        "artwork.logo": path.join(__dirname, "src/artworks/logo/src/"),
+        "artwork.audiovisio": path.join(
           __dirname,
-          "src.exhibitions/audiovisio/src/"
+          "src/artworks/audiovisio/src/"
         )
-        // "@sass": path.resolve(__dirname, "src/sass/"),
-        // "@glsl": path.resolve(__dirname, "src/glsl/"),
-        // "@assets": path.resolve(__dirname, "assets/"),
-        // "@routes": path.resolve(__dirname, "src/js/routes/"),
-        // "@components": path.resolve(__dirname, "src/js/components/"),
-        // "@utils": path.resolve(__dirname, "src/js/utils/")
       }
     },
     optimization: {
@@ -105,7 +99,11 @@ module.exports = env => {
         patterns: [
           { from: path.resolve(__dirname, "assets"), to: "assets" },
           {
-            from: path.resolve(__dirname, "src.exhibitions/logo/assets"),
+            from: path.resolve(__dirname, "src/artworks/logo/assets"),
+            to: "assets"
+          },
+          {
+            from: path.resolve(__dirname, "src/artworks/audiovisio/assets"),
             to: "assets"
           }
         ]

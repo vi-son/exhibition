@@ -53,7 +53,7 @@ body
   min-height: 100vh
   background: white
   &.out
-    transform: translateX(calc(-100% + 60px))
+    transform: translateX(calc(-100%))
 
   article
     margin: 40px 0
@@ -79,7 +79,7 @@ body
   transform: translateX(0)
   pointer-events: all
   &.out
-    transform: translateX(calc(100% - 60px))
+    transform: translateX(calc(100%))
 
 $offset: 10vh
 
@@ -94,7 +94,7 @@ $offset: 10vh
   transform: translateY(0)
   pointer-events: all
   &.out
-    transform: translateY(calc(-100% + 60px))
+    transform: translateY(calc(-100%))
 
 .bottom
   position: fixed
@@ -107,7 +107,7 @@ $offset: 10vh
   transform: translateY(0)
   pointer-events: all
   &.out
-    transform: translateY(calc(100% - 60px))
+    transform: translateY(calc(100%))
 
 iframe
   position: fixed
