@@ -6,9 +6,9 @@ import loadable from "@loadable/component";
 // Style imports
 import "../../sass/exhibition.sass";
 // Artwork imports
-import ExampleExhibit from "./ExampleExhibit.js";
-import Logo from "artwork.logo/js/index.js";
-import AudiovisIO from "artwork.audiovisio/js/Audiovis.IO.js";
+import Artwork from "./Artwork.js";
+// import Logo from "artwork.logo/js/index.js";
+// import AudiovisIO from "artwork.audiovisio/js/Audiovis.IO.js";
 
 const Wrapper = ({ children, exhibitionComponent }) => {
   const [meta, setMeta] = useState(true);
@@ -17,7 +17,7 @@ const Wrapper = ({ children, exhibitionComponent }) => {
     switch (exhibitionComponent) {
       case "Logo":
         return (
-          <Logo
+          <Artwork
             onEnter={() => setMeta(false)}
             entered={!meta}
             onBack={() => setMeta(!meta)}
@@ -25,7 +25,7 @@ const Wrapper = ({ children, exhibitionComponent }) => {
         );
       case "AudiovisIO":
         return (
-          <AudiovisIO
+          <Artwork
             onEnter={() => setMeta(false)}
             entered={true}
             goBack={() => {
