@@ -6,7 +6,9 @@ const Artwork = ({ onEnter, onMeta, onBack, meta }) => {
   return (
     <>
       <div className="canvas-wrapper" onClick={onEnter}></div>
-      <button onClick={() => onBack()}>Zurück</button>
+      <button className="btn-back" onClick={() => onBack()}>
+        Zurück
+      </button>
     </>
   );
 };

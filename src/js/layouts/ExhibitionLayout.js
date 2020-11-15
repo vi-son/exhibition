@@ -1,8 +1,10 @@
 // node_modules imports
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+// SVG imports
+import IconBackward from "../../../assets/svg/back.dark.svg";
 // Local imports
-import Wrapper from "../exhibitons/Wrapper.js";
+import ArtworkWrapper from "../exhibitons/ArtworkWrapper.js";
 import Textblock from "./blocks/Textblock.js";
 import Imageblock from "./blocks/Imageblock.js";
 import Imagegrid from "./blocks/Imagegrid.js";
@@ -25,14 +27,14 @@ export default ({ id }) => {
   }, []);
 
   return (
-    <Wrapper
+    <ArtworkWrapper
       exhibitionComponent={
         content.content ? content.content.exhibitioncomponent : null
       }
     >
       <div className="layout-exhibition">
         <Link className="button-back" to="/">
-          Zurück
+          <IconBackward /> <span className="text">Zum Foyer</span>
         </Link>
         <br />
         {blocks.map(block => {
@@ -58,6 +60,6 @@ export default ({ id }) => {
           }
         })}
       </div>
-    </Wrapper>
+    </ArtworkWrapper>
   );
 };

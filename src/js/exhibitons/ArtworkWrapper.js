@@ -4,13 +4,15 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import loadable from "@loadable/component";
 // Style imports
-import "../../sass/exhibition.sass";
+import "../../sass/exhibitions/ArtworkWrapper.sass";
+// SVG imports
+import IconForward from "../../../assets/svg/forward.light.svg";
 // Artwork imports
 import Artwork from "./Artwork.js";
 import Logo from "artwork.logo/js/Logo.js";
 // import AudiovisIO from "artwork.audiovisio/js/Audiovis.IO.js";
 
-const Wrapper = ({ children, exhibitionComponent }) => {
+const ArtworkWrapper = ({ children, exhibitionComponent }) => {
   const [meta, setMeta] = useState(true);
 
   const SelectedArtwork = () => {
@@ -39,16 +41,23 @@ const Wrapper = ({ children, exhibitionComponent }) => {
   };
 
   return (
-    <div className="exhibition">
+    <div className="artwork-wrapper">
       <div className="meta">
         <div className={["left", meta ? "" : "out"].join(" ")}>{children}</div>
         <div className={["right", meta ? "" : "out"].join(" ")}></div>
         <div className={["top", meta ? "" : "out"].join(" ")}></div>
         <div className={["bottom", meta ? "" : "out"].join(" ")}></div>
+        <button
+          className={["btn-to-artwork", meta ? "visible" : "hidden"].join(" ")}
+          onClick={() => setMeta(false)}
+        >
+          Zum Kunstwerk
+          <IconForward />
+        </button>
       </div>
       <SelectedArtwork />
     </div>
   );
 };
 
-export default Wrapper;
+export default ArtworkWrapper;

@@ -7,7 +7,7 @@ import { get } from "./api/api.js";
 import Foyer from "./foyer/Foyer.js";
 import ExhibitionLayout from "./layouts/ExhibitionLayout.js";
 // Style imports
-import "../sass/ExampleExhibit.sass";
+import "../sass/museum.sass";
 
 const Museum = () => {
   const [content, setContent] = useState([]);
