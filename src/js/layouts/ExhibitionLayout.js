@@ -10,6 +10,7 @@ import Imageblock from "./blocks/Imageblock.js";
 import Imagegrid from "./blocks/Imagegrid.js";
 import Audioblock from "./blocks/Audioblock.js";
 import Referencesblock from "./blocks/Referencesblock.js";
+import VideoEmedBlock from "./blocks/VideoEmbedBlock.js";
 
 import { get, BASE_URL } from "../api/api.js";
 
@@ -53,6 +54,9 @@ export default ({ id }) => {
               break;
             case "references":
               return <Referencesblock key={block._uid} content={block} />;
+              break;
+            case "videoembed":
+              return <VideoEmedBlock key={block._uid} content={block} />;
               break;
             default:
               return <section key={block._uid}>{block._key}</section>;
