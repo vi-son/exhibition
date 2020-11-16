@@ -93,9 +93,10 @@ const FoyerFooter = () => {
               <b>kunstverein hockenheim</b>
             </li>
             <li>
-              <a href="http://www.kunstverein-hockenheim.de/" target="_blank">
+              <a href="https://www.instagram.com/nic.kda/" target="_blank">
                 Nicole Fuchs
               </a>
+              <Insta url="https://www.instagram.com/nic.kda/" />
             </li>
             <li>
               <a href="http:www.kunstverein-hockenheim.de/" target="_blank">
