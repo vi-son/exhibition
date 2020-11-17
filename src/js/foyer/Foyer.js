@@ -78,6 +78,7 @@ export default ({ exhibitions }) => {
     // Audio listener
     const audioLoader = new THREE.AudioLoader();
     const sounds = new Map();
+    let playingSound = undefined;
     const listener = new THREE.AudioListener();
     camera.add(listener);
 
@@ -93,23 +94,11 @@ export default ({ exhibitions }) => {
       foyerMusic.play();
     });
 
-    // Camera Tween
-    // const introDuration = 1500;
-    // var from = camera.position.clone();
-    // var to = new THREE.Vector3(0, 0, 20);
-    // const cameraTween = new TWEEN.Tween(from)
-    //   .to(to, introDuration)
-    //   .delay(2000)
-    //   .easing(TWEEN.Easing.Cubic.InOut)
-    //   .start()
-    //   .onUpdate(o => {
-    //     camera.position.copy(from);
-    //   });
     // Sentence audio spheres
     const sentenceAudios = process.env.INTRO_SOUNDS;
     let visibleAudioSphere = null;
-    const positions = [];
     const cameraPositions = [];
+    const audioSpheres = new THREE.Group();
     sentenceAudios.forEach(s => {
       const filePath = `/assets/mp3/intro/${s}`;
       console.log(filePath);
@@ -123,15 +112,17 @@ export default ({ exhibitions }) => {
         radius * Math.sin(lat) * Math.sin(lng),
         radius * Math.cos(lng)
       );
-      positions.push(position);
       var sphereGeometry = new THREE.SphereBufferGeometry(0.05, 32, 32);
       var sphere = new THREE.Mesh(
         sphereGeometry,
-        new THREE.MeshBasicMaterial(0xffffff)
+        new THREE.MeshBasicMaterial(0x565469)
       );
+      sphere.triggered = false;
       sphere.position.copy(position);
       sphere.layers.enable(LAYER_RAYCASTABLE);
-      scene.add(sphere);
+      audioSpheres.add(sphere);
+      audioSpheres.layers.enable(LAYER_RAYCASTABLE);
+      scene.add(audioSpheres);
       // Load a sound and set it as the Audio object's buffer
       audioLoader.load(filePath, function(buffer) {
         sound.setBuffer(buffer);
@@ -143,55 +134,10 @@ export default ({ exhibitions }) => {
     });
 
     // Sound analyzer
-    // var audioAnalyser = undefined;
+    let audioAnalyser = new THREE.AudioAnalyser(foyerMusic, 32);
 
     let i = 0;
     let delay = 2000;
-    // const timedOut = setTimeout(() => {
-    //   const duration = soundDurations[i] * 1000;
-    //   const delay = soundDurations[i] * 1000;
-    //   setInterval(() => {
-    //     var from = camera.position.clone();
-    //     var to = cameraPositions[i];
-    //     const cameraTween = new TWEEN.Tween(from)
-    //       .to(to, duration)
-    //       .easing(TWEEN.Easing.Cubic.InOut)
-    //       .delay(delay)
-    //       .start()
-    //       .onStart(() => {
-    //         setSentenceShow(false);
-    //       })
-    //       .onUpdate(o => {
-    //         camera.position.copy(from);
-    //       })
-    //       .onComplete(() => {
-    //         sounds[i].play();
-    //         audioAnalyser = new THREE.AudioAnalyser(sounds[i], 32);
-    //         audioAnalyser.analyser.smoothingTimeConstant = 0.98;
-    //         visibleAudioSphere = audioSpheres[i];
-    //         setSentenceIndex(i);
-    //         // update index for the next audio
-    //         i = (i + 1) % positions.length;
-    //         setTimeout(() => {
-    //           setSentenceShow(true);
-    //         }, 600);
-    //       });
-    //     var fromLookAt = controls.target.clone();
-    //     var toLookAt = positions[i];
-    //     const lookAtTween = new TWEEN.Tween(fromLookAt)
-    //       .to(toLookAt, duration)
-    //       .easing(TWEEN.Easing.Cubic.InOut)
-    //       .delay(delay)
-    //       .start()
-    //       .onStart(() => {})
-    //       .onUpdate(() => {
-    //         controls.target = fromLookAt;
-    //         controls.update();
-    //       })
-    //       .onComplete(() => {});
-    //   }, duration + 2 * delay);
-    //   clearTimeout(timedOut);
-    // }, introDuration);
 
     // Background
     var backgroundCamera = new THREE.OrthographicCamera(
@@ -270,55 +216,52 @@ export default ({ exhibitions }) => {
     // Render loop
     var raycast = () => {
       raycaster.setFromCamera(mousePosition, camera);
-      hit = raycaster.intersectObjects(scene.children);
+      hit = raycaster.intersectObjects(scene.children, true);
       if (hit.length > 0) {
+        hit[0].object.scale.set(2.0, 2.0, 2.0);
+        hit[0].object.material.color.set(0xffffff);
         if (mouseDown) {
+          hit[0].object.triggered = true;
           hit[0].object.material.color.set(0x2b13ff);
           hit[0].object.scale.set(2.0, 2.0, 2.0);
           sounds.get(hit[0].object.id).play();
-        } else {
-          hit[0].object.material.color.set(0xffffff);
-          hit[0].object.scale.set(1.0, 1.0, 1.0);
+          playingSound = sounds.get(hit[0].object.id);
+          if (audioAnalyser === undefined) {
+          }
         }
+      } else {
+        audioSpheres.children.forEach(a => {
+          if (!a.triggered) {
+            a.scale.set(1.0, 1.0, 1.0);
+            a.material.color.set(0x565469);
+          }
+        });
       }
     };
 
     const clock = new THREE.Clock();
-    let dt = clock.getElapsedTime();
     var render = function() {
       requestAnimationFrame(render);
       controls.update();
       TWEEN.update();
 
-      // dt = clock.getElapsedTime();
-      // audioSpheres.forEach(s => {
-      //   const position = new THREE.Vector3(
-      //     s.direction *
-      //       3.0 *
-      //       Math.cos(dt / s.speed + s.offset) *
-      //       Math.sin(s.lng),
-      //     s.direction *
-      //       3.0 *
-      //       Math.sin(dt / s.speed + s.offset) *
-      //       Math.sin(s.lng),
-      //     s.direction * 3.0 * Math.cos(s.lng)
-      //   );
-      //   s.position.copy(position);
-      // });
-
       raycast();
+
+      let dt = clock.getElapsedTime();
+      audioSpheres.rotation.y += 0.001;
+      audioSpheres.rotation.x += 0.00023;
+      audioSpheres.rotation.z += 0.0004;
 
       renderer.clear();
       renderer.render(backgroundPlane, backgroundCamera);
       renderer.render(scene, camera);
 
-      // if (audioAnalyser !== undefined) {
-      //   const freq = audioAnalyser.getAverageFrequency();
-      //   const remapped = 0.25 + freq / 20.0;
-      //   const remappedCenter = Math.min(0.3 + 1.0 / (freq / 30.0), 2.0);
-      //   visibleAudioSphere.scale.set(remapped, remapped, remapped);
-      //   centerSphere.scale.set(remappedCenter, remappedCenter, remappedCenter);
-      // }
+      if (audioAnalyser !== undefined) {
+        const freq = audioAnalyser.getAverageFrequency();
+        const remapped = 0.25 + freq / 20.0;
+        const remappedCenter = Math.min(0.3 + 1.0 / (freq / 30.0), 2.0);
+        centerSphere.scale.set(remappedCenter, remappedCenter, remappedCenter);
+      }
     };
     render();
 
