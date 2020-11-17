@@ -19,13 +19,6 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    - name: Install SSH key
-      uses: shimataro/ssh-key-action@v2.1.0
-      with:
-        key: ${{ secrets.SSH_KEY }}
-        known_hosts: ${{ secrets.KNOWN_HOSTS }}
-        config: ${{ secrets.SSH_CONFIG }}
-
     - name: webfactory/ssh-agent
       uses: webfactory/ssh-agent@v0.3.0
       with:
@@ -42,6 +35,12 @@ jobs:
       run: npm run build
       working-directory: .
 
-    - name: Deploy to uberspace
-      run: rsync -e ssh -azvhP -r . uberspace:/var/www/virtual/guido/exhibition.mixing-senses.art/
-      working-directory: ./build
+    - name: Deploy to Server
+      uses: easingthemes/ssh-deploy@v2.1.5
+      env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
+          ARGS: "-avzr --delete"
+          SOURCE: "build/"
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.REMOTE_TARGET }}
