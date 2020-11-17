@@ -40,7 +40,7 @@ export default ({ exhibitions }) => {
 
   useEffect(() => {
     // Size
-    const size = canvasWrapperRef.current.getBoundingClientRect();
+    let size = canvasWrapperRef.current.getBoundingClientRect();
     // Scene
     const scene = new THREE.Scene();
     // Renderer
@@ -49,6 +49,12 @@ export default ({ exhibitions }) => {
       antialias: 1
     });
     renderer.setSize(size.width, size.height);
+    // Raycaster
+    const LAYER_RAYCASTABLE = 1;
+    const raycaster = new THREE.Raycaster();
+    raycaster.layers.set(LAYER_RAYCASTABLE);
+    var hit = [];
+    var mousePosition = new THREE.Vector2();
     // Camera
     var camera = new THREE.PerspectiveCamera(
       30,
@@ -71,8 +77,7 @@ export default ({ exhibitions }) => {
 
     // Audio listener
     const audioLoader = new THREE.AudioLoader();
-    const sounds = [];
-    const soundDurations = [];
+    const sounds = new Map();
     const listener = new THREE.AudioListener();
     camera.add(listener);
 
@@ -84,7 +89,7 @@ export default ({ exhibitions }) => {
     audioLoader.load(filePathFoyerMusic, function(buffer) {
       foyerMusic.setBuffer(buffer);
       foyerMusic.setLoop(true);
-      foyerMusic.setVolume(0.05);
+      foyerMusic.setVolume(0.75);
       foyerMusic.play();
     });
 
@@ -101,29 +106,14 @@ export default ({ exhibitions }) => {
     //     camera.position.copy(from);
     //   });
     // Sentence audio spheres
-    const sentenceAudios = [
-      "fragen-und-statements-01.mp3",
-      "fragen-und-statements-02.mp3",
-      "fragen-und-statements-03.mp3",
-      "fragen-und-statements-04.mp3",
-      "fragen-und-statements-05.mp3",
-      "fragen-und-statements-06.mp3",
-      "fragen-und-statements-07.mp3",
-      "fragen-und-statements-08.mp3",
-      "fragen-und-statements-09.mp3",
-      "fragen-und-statements-10.mp3",
-      "fragen-und-statements-11.mp3",
-      "fragen-und-statements-12.mp3"
-    ];
+    const sentenceAudios = process.env.INTRO_SOUNDS;
     let visibleAudioSphere = null;
-    const audioSpheres = [];
     const positions = [];
     const cameraPositions = [];
     sentenceAudios.forEach(s => {
       const filePath = `/assets/mp3/intro/${s}`;
-      const sound = new THREE.PositionalAudio(listener);
-      var helper = new PositionalAudioHelper(sound);
-      sound.add(helper);
+      console.log(filePath);
+      const sound = new THREE.Audio(listener);
       const spread = 5.0;
       const radius = 3.0;
       const lat = Math.random() * Math.PI * 2.0;
@@ -133,44 +123,23 @@ export default ({ exhibitions }) => {
         radius * Math.sin(lat) * Math.sin(lng),
         radius * Math.cos(lng)
       );
-      const cameraPosition = new THREE.Vector3(
-        radius * 2 * Math.cos(lat) * Math.sin(lng),
-        radius * 2 * Math.sin(lat) * Math.sin(lng),
-        radius * 2 * Math.cos(lng)
-      );
       positions.push(position);
-      cameraPositions.push(cameraPosition);
       var sphereGeometry = new THREE.SphereBufferGeometry(0.05, 32, 32);
       var sphere = new THREE.Mesh(
         sphereGeometry,
         new THREE.MeshBasicMaterial(0xffffff)
       );
-      var helperGeometry = new THREE.SphereBufferGeometry(1.0, 32, 32);
-      var helperMaterial = new THREE.LineBasicMaterial({
-        color: 0xff0000,
-        linewidth: 1
-      });
-      var group = new THREE.Group();
-      group.add(sphere);
-      group.position.copy(position);
-      scene.add(group);
-      group.offset = Math.random() * Math.PI * 2.0;
-      group.direction = Math.random() > 0.5 ? -1 : 1;
-      group.speed = Math.random() * 50.0;
-      group.lng = Math.random() * Math.PI;
-      audioSpheres.push(group);
+      sphere.position.copy(position);
+      sphere.layers.enable(LAYER_RAYCASTABLE);
+      scene.add(sphere);
       // Load a sound and set it as the Audio object's buffer
       audioLoader.load(filePath, function(buffer) {
-        soundDurations.push(buffer.duration);
         sound.setBuffer(buffer);
         sound.position.copy(position);
         sound.setVolume(1.0);
-        sound.setDistanceModel("exponential");
-        sound.setRolloffFactor(2.0);
-        sound.setMaxDistance(0.05);
-        sound.setRefDistance(1);
       });
-      sounds.push(sound);
+      console.log(sphere.id);
+      sounds.set(sphere.id, sound);
     });
 
     // Sound analyzer
@@ -249,14 +218,14 @@ export default ({ exhibitions }) => {
 
     function onWindowResize() {
       if (canvasWrapperRef.current) {
-        const newSize = canvasWrapperRef.current.getBoundingClientRect();
-        camera.aspect = newSize.width / newSize.height;
+        size = canvasWrapperRef.current.getBoundingClientRect();
+        camera.aspect = size.width / size.height;
         camera.updateProjectionMatrix();
         backgroundMaterial.uniforms.uResolution.value = new THREE.Vector2(
-          newSize.width,
-          newSize.height
+          size.width,
+          size.height
         );
-        renderer.setSize(newSize.width, newSize.height);
+        renderer.setSize(size.width, size.height);
       }
     }
     const resizeHandler = window.addEventListener(
@@ -265,32 +234,83 @@ export default ({ exhibitions }) => {
       false
     );
 
+    // Event listener
+    function onMouseMove(e) {
+      mousePosition.x = ((e.clientX - size.x) / size.width) * 2 - 1;
+      mousePosition.y = -((e.clientY - size.y) / size.height) * 2 + 1;
+    }
+
+    const pointerMoveHandler = window.addEventListener(
+      "pointermove",
+      onMouseMove,
+      false
+    );
+
+    let mouseDown = false;
+    function onMouseDown() {
+      mouseDown = true;
+    }
+
+    const pointerDownHandler = window.addEventListener(
+      "pointerdown",
+      onMouseDown,
+      false
+    );
+
+    function onMouseUp() {
+      mouseDown = false;
+    }
+
+    const pointerUpHandler = window.addEventListener(
+      "pointerup",
+      onMouseUp,
+      false
+    );
+
     // Render loop
+    var raycast = () => {
+      raycaster.setFromCamera(mousePosition, camera);
+      hit = raycaster.intersectObjects(scene.children);
+      if (hit.length > 0) {
+        if (mouseDown) {
+          hit[0].object.material.color.set(0x2b13ff);
+          hit[0].object.scale.set(2.0, 2.0, 2.0);
+          sounds.get(hit[0].object.id).play();
+        } else {
+          hit[0].object.material.color.set(0xffffff);
+          hit[0].object.scale.set(1.0, 1.0, 1.0);
+        }
+      }
+    };
+
     const clock = new THREE.Clock();
     let dt = clock.getElapsedTime();
     var render = function() {
       requestAnimationFrame(render);
       controls.update();
       TWEEN.update();
+
+      // dt = clock.getElapsedTime();
+      // audioSpheres.forEach(s => {
+      //   const position = new THREE.Vector3(
+      //     s.direction *
+      //       3.0 *
+      //       Math.cos(dt / s.speed + s.offset) *
+      //       Math.sin(s.lng),
+      //     s.direction *
+      //       3.0 *
+      //       Math.sin(dt / s.speed + s.offset) *
+      //       Math.sin(s.lng),
+      //     s.direction * 3.0 * Math.cos(s.lng)
+      //   );
+      //   s.position.copy(position);
+      // });
+
+      raycast();
+
       renderer.clear();
       renderer.render(backgroundPlane, backgroundCamera);
       renderer.render(scene, camera);
-
-      dt = clock.getElapsedTime();
-      audioSpheres.forEach(s => {
-        const position = new THREE.Vector3(
-          s.direction *
-            3.0 *
-            Math.cos(dt / s.speed + s.offset) *
-            Math.sin(s.lng),
-          s.direction *
-            3.0 *
-            Math.sin(dt / s.speed + s.offset) *
-            Math.sin(s.lng),
-          s.direction * 3.0 * Math.cos(s.lng)
-        );
-        s.position.copy(position);
-      });
 
       // if (audioAnalyser !== undefined) {
       //   const freq = audioAnalyser.getAverageFrequency();

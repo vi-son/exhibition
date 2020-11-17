@@ -1,3 +1,4 @@
+const fs = require("fs");
 const packageName = require("./package.json").name;
 const path = require("path");
 const webpack = require("webpack");
@@ -85,7 +86,12 @@ module.exports = env => {
     },
     plugins: [
       new webpack.DefinePlugin({
-        "process.env.NODE_ENV": JSON.stringify(env.NODE_ENV)
+        "process.env.NODE_ENV": JSON.stringify(env.NODE_ENV),
+        "process.env.INTRO_SOUNDS": JSON.stringify(
+          fs
+            .readdirSync(path.resolve(__dirname, "assets/mp3/intro/"))
+            .filter(e => e !== ".DS_Store")
+        )
       }),
       new HtmlWebpackPlugin({
         template: __dirname + "/src/html/index.html",
