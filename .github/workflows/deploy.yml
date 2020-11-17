@@ -19,11 +19,6 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    - name: webfactory/ssh-agent
-      uses: webfactory/ssh-agent@v0.3.0
-      with:
-        ssh-private-key: ${{ secrets.SSH_KEY }}
-
     - name: Checkout submodules
       uses: snickerbockers/submodules-init@v4
 
