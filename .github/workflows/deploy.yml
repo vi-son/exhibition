@@ -43,5 +43,5 @@ jobs:
         path: build/
         remote_path: /var/www/virtual/guido/exhibition.mixing-senses.art/
         remote_host: suhail.uberspace.de
-        remote_user: gschmidt
+        remote_user: guido
         remote_key: ${{ secrets.SSH_KEY }}
