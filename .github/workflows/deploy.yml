@@ -36,12 +36,17 @@ jobs:
       run: npm run build
       working-directory: .
 
-    - name: rsync deployments
-      uses: burnett01/rsync-deployments@4.1
+    - name: Deploy to server
+      id: deploy
+      uses: Pendect/action-rsyncer@v1.1.0
+      env:
+        DEPLOY_KEY: ${{secrets.SSH_KEY}}
       with:
-        switches: -avzr --delete
-        path: build/
-        remote_path: ${{ secrets.REMOTE_TARGET }}
-        remote_host: ${{ secrets.REMOTE_HOST }}
-        remote_user: ${{ secrets.REMOTE_USER }}
-        remote_key: ${{ secrets.SSH_KEY }}
+        flags: '-avzr --delete'
+        options: ''
+        ssh_options: ''
+        src: 'build/'
+        dest: 'guido@kohoutek.uberspace.de:/var/www/virtual/guido/exhibition.mixing-senses.art'
+
+    - name: Display status from deploy
+      run: echo "${{ steps.deploy.outputs.status }}"
