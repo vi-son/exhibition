@@ -84,7 +84,7 @@
     line-height: 1.0
 
   .instruction
-    position: fixed
+    position: absolute
     top: calc(100vh - 120px)
     left: 50px
     display: flex
@@ -108,11 +108,18 @@
   .content
     z-index: +99
     display: inline-block
-    padding: 60px 120px 200px
-    width: 80vw
+    padding: 60px 60px 200px
+    width: 90vw
     margin: 0 auto
     display: grid
+    grid-template-columns: 1fr 1fr
     grid-gap: 30px
+
+  .header-text
+    color: var(--color-ultradark)
+    grid-column: span 2
+    .heading
+      color: var(--color-ultradark)
 
   .exhibition-entry
     height: 200px
@@ -129,6 +136,17 @@
     overflow: hidden
     &:hover
       box-shadow: 0 80px 120px var(--color-dirtysnow-20)
+
+    &.meta
+      background-color: var(--color-curacao)
+      &:hover
+        box-shadow: 0 80px 120px var(--color-curacao-40)
+      .column
+        .title,
+        article
+          color: var(--color-snow)
+
+
     &.draft
       background: var(--color-oldsnow)
       color: var(--color-litte-peacock)
@@ -138,7 +156,7 @@
         cursor: default
 
     .title-image
-      width: 300px
+      width: 30%
       height: 100%
       background-size: cover
       background-position: center

@@ -9,6 +9,7 @@ import TWEEN from "@tweenjs/tween.js";
 import useStateCallback from "../utils/useStateCallback.js";
 import { get } from "../api/api.js";
 import FoyerFooter from "./Footer.js";
+import Room from "./Room.js";
 // SVG imports
 import VisonMixingSenses from "../../../assets/svg/vi.son-mixing-senses.svg";
 import IconMouse from "../../../assets/svg/mouse.svg";
@@ -338,41 +339,12 @@ export default ({ exhibitions }) => {
         </div>
       </div>
       <div className="content">
-        <h3>Ausstellungsräume</h3>
+        <div className="header-text">
+          <h3 className="heading">Ausstellungsräume</h3>
+          <article>Text folgt...</article>
+        </div>
         {exhibitions.map(exhibit => {
-          const pictureUrl =
-            exhibit.content.titleimage.length > 0
-              ? exhibit.content.titleimage[0].url
-              : "";
-          return (
-            <Link
-              to={exhibit.content.active ? `/${exhibit.id}` : "#"}
-              key={exhibit.id}
-            >
-              <div
-                className={[
-                  "exhibition-entry",
-                  !exhibit.content.active ? "draft" : ""
-                ].join(" ")}
-              >
-                <div
-                  className="title-image"
-                  style={{
-                    backgroundImage: `url(${pictureUrl})`
-                  }}
-                ></div>
-                <div className="column">
-                  <h3 className="title">{exhibit.content.title}</h3>
-                  <article>{exhibit.content.shortdescription}</article>
-                  {exhibit.content.active ? (
-                    <></>
-                  ) : (
-                    <h6>Demnächst verfügbar</h6>
-                  )}
-                </div>
-              </div>
-            </Link>
-          );
+          return <Room key={exhibit.id} exhibit={exhibit} />;
         })}
       </div>
       <FoyerFooter />
