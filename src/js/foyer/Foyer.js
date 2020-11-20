@@ -11,6 +11,7 @@ import { get } from "../api/api.js";
 import FoyerFooter from "./Footer.js";
 // SVG imports
 import VisonMixingSenses from "../../../assets/svg/vi.son-mixing-senses.svg";
+import IconMouse from "../../../assets/svg/mouse.svg";
 // Style imports
 import "../../sass/Foyer.sass";
 // GLSL imports
@@ -20,6 +21,7 @@ import fragmentShader from "../../glsl/background.frag.glsl";
 export default ({ exhibitions }) => {
   const canvasWrapperRef = useRef();
   const canvasRef = useRef();
+  const [learned, setLearned] = useState(false);
   const [sentenceIndex, setSentenceIndex] = useState(0);
   const [sentenceShow, setSentenceShow] = useStateCallback(false);
   const [sentences] = useState([
@@ -73,7 +75,7 @@ export default ({ exhibitions }) => {
 
     // Center sphere
     var geometry = new THREE.SphereGeometry(0.3, 32, 32);
-    var material = new THREE.MeshBasicMaterial({ color: 0x2b13ff });
+    var material = new THREE.MeshBasicMaterial({ color: 0xebf6f6 });
     var centerSphere = new THREE.Mesh(geometry, material);
     scene.add(centerSphere);
 
@@ -100,6 +102,14 @@ export default ({ exhibitions }) => {
     const sentenceAudios = process.env.INTRO_SOUNDS;
     let visibleAudioSphere = null;
     const cameraPositions = [];
+    const colorPalette = [
+      0xdba8af,
+      0xd780a2,
+      0xffd4a2,
+      0xa7e2d8,
+      0x7a63a7,
+      0x4d5082
+    ];
     const audioSpheres = new THREE.Group();
     sentenceAudios.forEach(s => {
       const filePath = `/assets/mp3/intro/${s}`;
@@ -117,8 +127,10 @@ export default ({ exhibitions }) => {
       var sphereGeometry = new THREE.SphereBufferGeometry(0.05, 32, 32);
       var sphere = new THREE.Mesh(
         sphereGeometry,
-        new THREE.MeshBasicMaterial(0x716ea0)
+        new THREE.MeshBasicMaterial(0x141827)
       );
+      const randomIdx = Math.floor(colorPalette.length * Math.random());
+      sphere.color = colorPalette[randomIdx];
       sphere.triggered = false;
       sphere.position.copy(position);
       sphere.layers.enable(LAYER_RAYCASTABLE);
@@ -221,10 +233,11 @@ export default ({ exhibitions }) => {
       hit = raycaster.intersectObjects(scene.children, true);
       if (hit.length > 0) {
         hit[0].object.scale.set(2.0, 2.0, 2.0);
-        hit[0].object.material.color.set(0xffffff);
+        hit[0].object.material.color.set(hit[0].object.color);
         if (mouseDown) {
+          setLearned(true);
           hit[0].object.triggered = true;
-          hit[0].object.material.color.set(0x2b13ff);
+          hit[0].object.material.color.set(hit[0].object.color);
           hit[0].object.scale.set(2.0, 2.0, 2.0);
           sounds.get(hit[0].object.id).play();
           playingSound = sounds.get(hit[0].object.id);
@@ -236,7 +249,7 @@ export default ({ exhibitions }) => {
         audioSpheres.children.forEach(a => {
           if (!a.triggered) {
             a.scale.set(1.0, 1.0, 1.0);
-            a.material.color.set(0x716ea0);
+            a.material.color.set(0x141827);
           }
         });
       }
@@ -305,6 +318,10 @@ export default ({ exhibitions }) => {
         <canvas ref={canvasRef}></canvas>
         <div className="top-logo-wrapper">
           <VisonMixingSenses />
+        </div>
+        <div className={["instruction", learned ? "learned" : ""].join(" ")}>
+          <IconMouse />
+          <span>Klicke die dunklen Datenpunkte an</span>
         </div>
         {sentenceShow}
         <div className="sentence-wrapper">

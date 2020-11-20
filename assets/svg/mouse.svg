@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="78px" height="78px" viewBox="0 0 78 78" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icons/mouse</title>
+    <g id="icons/mouse" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-2" transform="translate(25.000000, 20.000000)" stroke="#FFFFFF" stroke-width="2">
+            <g id="Group">
+                <path d="M16.4864652,0 L16.9459733,0 C24.6779598,0 31,6.2680135 31,14 L31,36.5 C31,45.0604136 24.0604136,52 15.5,52 C6.93958638,52 0,45.0604136 0,36.5 L0,14 C0,6.2680135 6.2680135,0 14,0 L14.5235569,0" id="Path"></path>
+                <line x1="15.5" y1="1" x2="15.5" y2="17" id="Path-3"></line>
+            </g>
+        </g>
+        <path d="M40.5,16.8614159 C40.5,13.9816641 38.6176742,11.0007041 40.5,7.93132964 C42.3823258,4.86195518 45.7746741,5.8788354 46.7367236,2.03018024" id="Path-4" stroke="#FFFFFF" stroke-width="3"></path>
+    </g>
+</svg>

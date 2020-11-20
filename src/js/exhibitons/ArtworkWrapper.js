@@ -10,7 +10,7 @@ import IconForward from "../../../assets/svg/forward.light.svg";
 // Artwork imports
 import Artwork from "./Artwork.js";
 import Logo from "artwork.logo/js/Logo.js";
-// import AudiovisIO from "artwork.audiovisio/js/Audiovis.IO.js";
+import AudiovisIO from "artwork.audiovisio/js/audiovis.io.js";
 
 const ArtworkWrapper = ({ children, exhibitionComponent }) => {
   const [meta, setMeta] = useState(true);
@@ -28,7 +28,7 @@ const ArtworkWrapper = ({ children, exhibitionComponent }) => {
         break;
       case "AudiovisIO":
         return (
-          <Artwork
+          <AudiovisIO
             onEnter={() => setMeta(false)}
             entered={true}
             onBack={() => setMeta(true)}
