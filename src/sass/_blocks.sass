@@ -5,18 +5,17 @@
   .heading
     margin: 0
     line-height: 1.0
-    color: var(--color-darkness) 
+    color: var(--color-darkness)
   .heading
     color: var(--color-darkness) 
     margin-bottom: 40px
 
 .block-image
-  display: flex
-  flex-direction: row
+  display: grid
   justify-content: center
+  grid-template-columns: 1fr 1fr
   align-items: flex-start
   .left-side
-    width: 60%
     padding: 0 2rem 0 0
     margin-bottom: 20px
     img
@@ -25,8 +24,9 @@
       box-shadow: 0 1.5vw 3vw rgba(0, 0, 0, 0.1)
       border: 30px solid white
   .right-side
-    width: 40%
+    align-self: end
     font-size: 0.9rem
+    line-height: 1.2
     max-width: 80ch
     background: white
     padding: 60px
@@ -71,3 +71,29 @@
     padding: 0 10px
     &:hover
       background: var(--color-curacao)
+
+.block-cite
+  .link
+    display: flex
+    flex-direction: column
+    padding: 0
+    &:hover
+      .cite
+        background-color: var(--color-curacao)
+        color: var(--color-snow)
+        border-radius: 5px
+        box-shadow: 0 50px 80px var(--color-curacao-40)
+    .cite
+      transition: background 0.3s ease, color 0.3s ease, padding 0.3s ease
+      border-left: 10px solid var(--color-curacao)
+      color: var(--color-curacao)
+      text-align: left
+      padding-left: 20px
+      line-height: 1.6
+      padding: 30px
+    .author
+      margin-top: 20px
+      text-align: right
+      font-size: 1.375rem
+      margin-left: 20px
+      color: var(--color-darkness)
