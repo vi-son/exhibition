@@ -7,9 +7,11 @@ const Citeblock = ({ content }) => {
     <section className="block-cite">
       <a className="link" href={content.link} target="_blank">
         <blockquote className="cite" cite={content.link}>
-          {kt(content.cite)}
+          {content.cite !== undefined ? kt(content.cite) : ""}
         </blockquote>
-        <h2 className="author">{content.author}</h2>
+        <h2 className="author">
+          {content.author !== undefined ? content.author : ""}
+        </h2>
       </a>
     </section>
   );

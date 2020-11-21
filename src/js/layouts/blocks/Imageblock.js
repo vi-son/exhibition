@@ -11,7 +11,11 @@ const Imageblock = ({ content }) => {
           <img src={imageUrl} />
         </a>
       </div>
-      <small className="right-side">{kt(content.text)}</small>
+      {content.text !== undefined ? (
+        <small className="right-side">{kt(content.text)}</small>
+      ) : (
+        ""
+      )}
     </section>
   );
 };

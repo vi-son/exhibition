@@ -1,3 +1,5 @@
+import React from "react";
+
 function bold(text) {
   const findBold = /(\*+\w+ \w+\*+)/;
   return text.split(findBold).map((substr, i) => {

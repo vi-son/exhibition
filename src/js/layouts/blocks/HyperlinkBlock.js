@@ -8,7 +8,7 @@ const HyperlinkBlock = ({ content }) => {
       <div className="flex">
         {content.links.map(l => {
           return (
-            <a href={l.link} className="link" target="_blank">
+            <a key={l.link} href={l.link} className="link" target="_blank">
               {l.text}
             </a>
           );
