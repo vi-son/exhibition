@@ -12,7 +12,7 @@ import Artwork from "./Artwork.js";
 import Logo from "artwork.logo/js/Logo.js";
 import AudiovisIO from "artwork.audiovisio/js/audiovis.io.js";
 
-const ArtworkWrapper = ({ children, exhibitionComponent }) => {
+const ArtworkWrapper = ({ children, exhibitionComponent, type }) => {
   const [meta, setMeta] = useState(true);
 
   const SelectedArtwork = () => {
@@ -27,13 +27,7 @@ const ArtworkWrapper = ({ children, exhibitionComponent }) => {
         );
         break;
       case "AudiovisIO":
-        return (
-          <AudiovisIO
-            onEnter={() => setMeta(false)}
-            entered={true}
-            onBack={() => setMeta(true)}
-          />
-        );
+        return <a to="https://audiovisio.mixing-senses.art" />;
         break;
       default:
         return <div>No Content.</div>;
@@ -47,15 +41,21 @@ const ArtworkWrapper = ({ children, exhibitionComponent }) => {
         <div className={["right", meta ? "" : "out"].join(" ")}></div>
         <div className={["top", meta ? "" : "out"].join(" ")}></div>
         <div className={["bottom", meta ? "" : "out"].join(" ")}></div>
-        <button
-          className={["btn-to-artwork", meta ? "visible" : "hidden"].join(" ")}
-          onClick={() => setMeta(false)}
-        >
-          Zum Kunstwerk
-          <IconForward />
-        </button>
+        {type === "art" ? (
+          <button
+            className={["btn-to-artwork", meta ? "visible" : "hidden"].join(
+              " "
+            )}
+            onClick={() => setMeta(false)}
+          >
+            Zum Kunstwerk
+            <IconForward />
+          </button>
+        ) : (
+          <></>
+        )}
       </div>
-      <SelectedArtwork />
+      {type === "art" ? <SelectedArtwork /> : <></>}
     </div>
   );
 };

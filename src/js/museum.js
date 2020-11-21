@@ -49,7 +49,7 @@ const Museum = () => {
         {content.map(c => {
           return (
             <Route key={c.id} path={`/${c.id}`}>
-              <ExhibitionLayout id={c.id} />
+              <ExhibitionLayout id={c.id} type={c.content.type} />
             </Route>
           );
         })}

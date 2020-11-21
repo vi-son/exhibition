@@ -13,12 +13,13 @@ import Referencesblock from "./blocks/Referencesblock.js";
 import VideoEmedBlock from "./blocks/VideoEmbedBlock.js";
 import HyperlinkBlock from "./blocks/HyperlinkBlock.js";
 import CiteBlock from "./blocks/CiteBlock.js";
+import PodcastBlock from "./blocks/PodcastBlock.js";
 
 import { get, BASE_URL } from "../api/api.js";
 
 import "../../sass/ExhibitionLayout.sass";
 
-export default ({ id }) => {
+export default ({ id, type }) => {
   const [content, setContent] = useState({});
   const [blocks, setBlocks] = useState([]);
 
@@ -31,6 +32,7 @@ export default ({ id }) => {
 
   return (
     <ArtworkWrapper
+      type={type}
       exhibitionComponent={
         content.content ? content.content.exhibitioncomponent : null
       }
@@ -65,6 +67,9 @@ export default ({ id }) => {
               break;
             case "citeblock":
               return <CiteBlock key={block._uid} content={block} />;
+              break;
+            case "podcastblock":
+              return <PodcastBlock key={block._uid} content={block} />;
               break;
             default:
               return <section key={block._uid}>{block._key}</section>;
