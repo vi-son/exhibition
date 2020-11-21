@@ -46,9 +46,15 @@ const ArtworkWrapper = ({ children, exhibitionComponent, content }) => {
             className={["btn-to-artwork", meta ? "visible" : "hidden"].join(
               " "
             )}
-            onClick={() => setMeta(false)}
+            onClick={() => {
+              if (exhibitionComponent === "AudiovisIO") {
+                window.location = "https://audiovisio.mixing-senses.art";
+              } else {
+                setMeta(false);
+              }
+            }}
           >
-            Zum Kunstwerk
+            Zum Exponat
             <IconForward />
           </button>
         ) : (

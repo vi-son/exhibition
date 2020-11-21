@@ -338,8 +338,22 @@ export default ({ exhibitions }) => {
       </div>
       <div className="content">
         <div className="header-text">
-          <h3 className="heading">Ausstellungsräume</h3>
-          <article>Text folgt...</article>
+          <h1 className="museum-title">Wie sieht Musik aus?</h1>
+          <h3 className="museum-subtitle">
+            Können wir Musik sehen? In dieser digitalen Ausstellung erkunden wir
+            verschiedene, multisensorische Wahrnehmungsweisen von Musik.
+          </h3>
+          <article className="intro-text">
+            In den einzelnen <i>KAPITELN</i> setzen wir uns kreativ mit den
+            Fragen auseinander, wie wir Musik wahrnehmen, was Musik in uns
+            auslöst und was digitale Technik daran verändern kann. Jedes KAPITEL
+            besteht aus inhaltlichem Input (<i>CONTENT</i>) und einem kreativen
+            Beitrag (<i>EXPONAT</i>). Mit Klick auf die Boxen gelangst du in den
+            Themenraum des KAPITELS.
+            <br />
+            <br />
+            Viel Spaß beim Besuch unserer digitalen Ausstellung!
+          </article>
         </div>
         {exhibitions.map(exhibit => {
           return <Room key={exhibit.id} exhibit={exhibit} />;

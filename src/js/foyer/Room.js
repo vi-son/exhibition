@@ -27,10 +27,12 @@ const Room = ({ exhibit }) => {
         )}
         <div className="column">
           <h6 className="title">
-            {exhibit.content.type === "art" ? "Kunstwerk" : "Begleitprogramm"}
+            {exhibit.content.type === "art" ? "Exponat" : "Begleitprogramm"}
           </h6>
           <h3 className="title">{exhibit.content.title}</h3>
-          <article>{exhibit.content.shortdescription}</article>
+          <article className="shortdescription">
+            {exhibit.content.shortdescription}
+          </article>
           {exhibit.content.active ? <></> : <h6>Demnächst verfügbar</h6>}
         </div>
       </div>

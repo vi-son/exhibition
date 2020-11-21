@@ -37,7 +37,7 @@ export default ({ id, type }) => {
       <>
         <div className="title-area">
           <h3 className="tag">
-            {content.content.type === "art" ? "Kunstwerk" : "Begleitprogramm"}
+            {content.content.type === "art" ? "Exponat" : "Begleitprogramm"}
           </h3>
           <h1 className="title">{content.content.title}</h1>
         </div>
