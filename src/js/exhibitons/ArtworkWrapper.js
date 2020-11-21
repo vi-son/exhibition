@@ -12,7 +12,7 @@ import Artwork from "./Artwork.js";
 import Logo from "artwork.logo/js/Logo.js";
 import AudiovisIO from "artwork.audiovisio/js/audiovis.io.js";
 
-const ArtworkWrapper = ({ children, exhibitionComponent, type }) => {
+const ArtworkWrapper = ({ children, exhibitionComponent, content }) => {
   const [meta, setMeta] = useState(true);
 
   const SelectedArtwork = () => {
@@ -41,7 +41,7 @@ const ArtworkWrapper = ({ children, exhibitionComponent, type }) => {
         <div className={["right", meta ? "" : "out"].join(" ")}></div>
         <div className={["top", meta ? "" : "out"].join(" ")}></div>
         <div className={["bottom", meta ? "" : "out"].join(" ")}></div>
-        {type === "art" ? (
+        {content.content.type === "art" ? (
           <button
             className={["btn-to-artwork", meta ? "visible" : "hidden"].join(
               " "
@@ -55,7 +55,7 @@ const ArtworkWrapper = ({ children, exhibitionComponent, type }) => {
           <></>
         )}
       </div>
-      {type === "art" ? <SelectedArtwork /> : <></>}
+      {content.content.type === "art" ? <SelectedArtwork /> : <></>}
     </div>
   );
 };

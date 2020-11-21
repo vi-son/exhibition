@@ -31,7 +31,9 @@ const Museum = () => {
   };
 
   useEffect(() => {
-    initServiceWorker();
+    if (process.env.NODE_ENV === "production") {
+      initServiceWorker();
+    }
     get("site/children").then(pages => {});
     get("site/children?select=id,title,content,blueprint").then(pages => {
       const exhibitions = pages

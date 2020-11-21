@@ -114,7 +114,6 @@ export default ({ exhibitions }) => {
     const audioSpheres = new THREE.Group();
     sentenceAudios.forEach(s => {
       const filePath = `/assets/mp3/intro/${s}`;
-      console.log(filePath);
       const sound = new THREE.Audio(listener);
       const spread = 5.0;
       const radius = 3.0;
@@ -144,7 +143,6 @@ export default ({ exhibitions }) => {
         sound.position.copy(position);
         sound.setVolume(1.0);
       });
-      console.log(sphere.id);
       sounds.set(sphere.id, sound);
     });
 

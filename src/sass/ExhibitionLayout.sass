@@ -1,5 +1,30 @@
 @import ./_blocks.sass
 
+
+.title-area
+  margin-bottom: 40px
+  position: fixed
+  z-index: 999999
+  width: 50vw
+  right: 0
+  justify-content: center
+  display: flex
+  flex-direction: column
+  align-items: center
+  .tag
+    padding: 10px 30px
+    line-height: 1.0
+    font-family: Space Mono
+    letter-spacing: 0
+    font-size: 1.25rem
+    display: inline-flex
+    background: var(--color-curacao)
+    color: var(--color-snow)
+
+  .title
+    line-height: 1.0
+    color: var(--color-curacao)
+
 .layout-exhibition
   .button-back
     position: auto
@@ -15,6 +40,6 @@
       margin-left: 20px
 
   section
-    margin: 0 0 120px 0
+    margin: 90px 0 60px 0
     article, p
       max-width: 80ch

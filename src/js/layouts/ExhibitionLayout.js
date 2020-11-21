@@ -30,53 +30,65 @@ export default ({ id, type }) => {
     });
   }, []);
 
-  return (
-    <ArtworkWrapper
-      type={type}
-      exhibitionComponent={
-        content.content ? content.content.exhibitioncomponent : null
-      }
-    >
-      <div className="layout-exhibition">
-        <Link className="button-back" to="/">
-          <IconBackward /> <span className="text">Zum Foyer</span>
-        </Link>
-        <br />
-        {blocks.map(block => {
-          switch (block._key) {
-            case "textblock":
-              return <Textblock key={block._uid} content={block} />;
-              break;
-            case "imageblock":
-              return <Imageblock key={block._uid} content={block} />;
-              break;
-            case "imagegrid":
-              return <Imagegrid key={block._uid} content={block} />;
-              break;
-            case "audioblock":
-              return <Audioblock key={block._uid} content={block} />;
-              break;
-            case "references":
-              return <Referencesblock key={block._uid} content={block} />;
-              break;
-            case "videoembed":
-              return <VideoEmedBlock key={block._uid} content={block} />;
-              break;
-            case "hyperlinks":
-              return <HyperlinkBlock key={block._uid} content={block} />;
-              break;
-            case "citeblock":
-              return <CiteBlock key={block._uid} content={block} />;
-              break;
-            case "podcastblock":
-              return <PodcastBlock key={block._uid} content={block} />;
-              break;
-            default:
-              return <section key={block._uid}>{block._key}</section>;
-              break;
+  if (content.content === undefined) {
+    return <>Loading</>;
+  } else {
+    return (
+      <>
+        <div className="title-area">
+          <h3 className="tag">
+            {content.content.type === "art" ? "Kunstwerk" : "Begleitprogramm"}
+          </h3>
+          <h1 className="title">{content.content.title}</h1>
+        </div>
+        <ArtworkWrapper
+          content={content}
+          exhibitionComponent={
+            content.content ? content.content.exhibitioncomponent : null
           }
-        })}
-      </div>
-    </ArtworkWrapper>
-  );
+        >
+          <div className="layout-exhibition">
+            <Link className="button-back" to="/">
+              <IconBackward /> <span className="text">Zum Foyer</span>
+            </Link>
+
+            {blocks.map(block => {
+              switch (block._key) {
+                case "textblock":
+                  return <Textblock key={block._uid} content={block} />;
+                  break;
+                case "imageblock":
+                  return <Imageblock key={block._uid} content={block} />;
+                  break;
+                case "imagegrid":
+                  return <Imagegrid key={block._uid} content={block} />;
+                  break;
+                case "audioblock":
+                  return <Audioblock key={block._uid} content={block} />;
+                  break;
+                case "references":
+                  return <Referencesblock key={block._uid} content={block} />;
+                  break;
+                case "videoembed":
+                  return <VideoEmedBlock key={block._uid} content={block} />;
+                  break;
+                case "hyperlinks":
+                  return <HyperlinkBlock key={block._uid} content={block} />;
+                  break;
+                case "citeblock":
+                  return <CiteBlock key={block._uid} content={block} />;
+                  break;
+                case "podcastblock":
+                  return <PodcastBlock key={block._uid} content={block} />;
+                  break;
+                default:
+                  return <section key={block._uid}>{block._key}</section>;
+                  break;
+              }
+            })}
+          </div>
+        </ArtworkWrapper>
+      </>
+    );
+  }
 };

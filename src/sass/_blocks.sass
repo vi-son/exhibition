@@ -1,65 +1,84 @@
 @import ./rouge/1-settings/_colors.sass
 
 .block-text
-  .preheading,
+  .preheading
+    font-size: 1.75rem
+    line-height: 1.0
+    color: var(--color-curacao)
+    margin: 0
   .heading
     margin: 0
-    line-height: 1.0
-    color: var(--color-darkness)
-  .heading
     color: var(--color-darkness) 
     margin-bottom: 40px
+    font-size: 2.8125rem
+    line-height: 1.0
+    margin-top: 20px
 
 .block-image
   display: grid
   justify-content: center
-  grid-template-columns: 1fr 1fr
+  grid-template-columns: 1fr 0.5fr
   align-items: flex-start
   .left-side
     padding: 0 2rem 0 0
     margin-bottom: 20px
+    a:hover
+      img
+        box-shadow: 0 60px 120px rgba(0, 0, 0, 0.3)
     img
+      transition: box-shadow 0.3s ease
       width: 100%
       margin: 0
-      box-shadow: 0 1.5vw 3vw rgba(0, 0, 0, 0.1)
-      border: 30px solid white
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.1)
+      border: 10px solid white
   .right-side
     align-self: end
     font-size: 0.9rem
     line-height: 1.2
-    max-width: 80ch
     background: white
-    padding: 60px
+    padding: 30px
     border-radius: 2px
-    box-shadow: 0 1.5vw 1vw rgba(0, 0, 0, 0.05)
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1)
 
 .block-imagegrid
   width: 100%
   display: grid
   grid-template-columns: repeat(3, 2fr)
   grid-gap: 20px
+  a:hover
+    img
+      box-shadow: 0 60px 120px rgba(0, 0, 0, 0.3)
   img
+    transition: box-shadow 0.3s ease
     width: 100%
     margin: auto 0
-    box-shadow: 0 1.5vw 3vw rgba(0, 0, 0, 0.1)
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.1)
     border-radius: 2px
     border: 30px solid white
 
 .block-video-embed
   .grid
     display: grid
-    grid-template-columns: 60% 40%
-    grid-gap: 40px
+    grid-template-columns: 1fr
+    grid-gap: 20px
   .iframe-wrapper
     position: relative
-    width: 100%
-    height: auto
+    min-height: 60vh
     iframe
       width: 100%
       height: 100%
       position: absolute
+  .description
+    text-align: center
+    opacity: 0.75
+    background: white
+    padding: 40px 20px
+    margin: 0 auto
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2)
+    line-height: 1.2
 
 .block-hyperlinks
+  margin: 30px 0 !important
   .flex
     display: flex
     flex-direction: column

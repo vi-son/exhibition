@@ -15,7 +15,7 @@ const VideoEmedBlock = ({ content }) => {
             muted
           ></iframe>
         </div>
-        <article className="right-side">{kt(content.text)}</article>
+        <article className="description">{kt(content.text)}</article>
       </div>
     </section>
   );
