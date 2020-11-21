@@ -344,12 +344,13 @@ export default ({ exhibitions }) => {
             verschiedene, multisensorische Wahrnehmungsweisen von Musik.
           </h3>
           <article className="intro-text">
-            In den einzelnen <i>KAPITELN</i> setzen wir uns kreativ mit den
+            In den einzelnen <i>Kapiteln</i> setzen wir uns kreativ mit den
             Fragen auseinander, wie wir Musik wahrnehmen, was Musik in uns
-            auslöst und was digitale Technik daran verändern kann. Jedes KAPITEL
-            besteht aus inhaltlichem Input (<i>CONTENT</i>) und einem kreativen
-            Beitrag (<i>EXPONAT</i>). Mit Klick auf die Boxen gelangst du in den
-            Themenraum des KAPITELS.
+            auslöst und was digitale Technik daran verändern kann. Jedes{" "}
+            <i>Kapitel</i>
+            besteht aus inhaltlichem Input (<i>Content</i>) und einem kreativen
+            Beitrag (<i>Exponat</i>). Mit Klick auf die Boxen gelangst du in den
+            Themenraum des <i>Kapitels</i>.
             <br />
             <br />
             Viel Spaß beim Besuch unserer digitalen Ausstellung!
