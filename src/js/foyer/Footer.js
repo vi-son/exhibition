@@ -26,6 +26,21 @@ const Insta = ({ url }) => {
 const FoyerFooter = () => {
   return (
     <footer className="foyer-footer">
+      <div className="feedback-hint">
+        <h5>Wir freuen uns über Feedback</h5>
+        <p className="text">
+          Du hast Wünsche, Ideen, Verbesserungsvorschläge oder auch einfach nur
+          ein Lob? Für solche Fälle haben wir ein Feedback-Formular für dich
+          eingerichtet. In jedem Fall schon mal ganz herzlichen Dank 👍
+        </p>
+        <a
+          className="btn-feedback"
+          href="https://docs.google.com/forms/d/e/1FAIpQLSdITyBdNVHoGN-UaAw0FJdckg4bsLobDMqNxDUnYpFVUUUpWg/viewform"
+          target="_blank"
+        >
+          Feedback
+        </a>
+      </div>
       <h3>Credits</h3>
 
       <main className="columns">
