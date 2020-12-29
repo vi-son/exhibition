@@ -18,6 +18,13 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0 # Doesn't help
+
+    - name: "Extract data from tag: version, message, body"
+      id: tag
+      run: |
+        git fetch --tags --force # Retrieve annotated tags. THIS TRICK REALLY HELPS
 
     - name: Setup SSH
       uses: MrSquaare/ssh-setup-action@v1
