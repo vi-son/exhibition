@@ -1,4 +1,6 @@
 const fs = require("fs");
+const shell = require("shelljs");
+const package = require("./package.json");
 const packageName = require("./package.json").name;
 const path = require("path");
 const webpack = require("webpack");
@@ -6,6 +8,16 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const WorkboxPlugin = require("workbox-webpack-plugin");
 const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
+
+function getVersionFromGit() {
+  const gitTag = shell.exec("git describe --abbrev=0 --tags");
+  const gitCommit = shell.exec("git rev-parse --short HEAD");
+  return {
+    tag: gitTag.trim(),
+    commit: gitCommit.trim(),
+    package: package
+  };
+}
 
 module.exports = env => {
   console.log(`ENV: ${env.NODE_ENV} / ${env.production}`);
@@ -87,6 +99,7 @@ module.exports = env => {
     plugins: [
       new webpack.DefinePlugin({
         "process.env.NODE_ENV": JSON.stringify(env.NODE_ENV),
+        "process.env.VERSION": JSON.stringify(getVersionFromGit()),
         "process.env.INTRO_SOUNDS": JSON.stringify(
           fs
             .readdirSync(path.resolve(__dirname, "assets/mp3/intro/"))

@@ -186,6 +186,20 @@ const FoyerFooter = () => {
         <MixingSenses />
       </div>
       <small className="copyright">2020 • mixing-senses.art</small>
+      <div className="version">
+        <span>
+          <b>Version: </b> {process.env.VERSION.tag}
+        </span>
+        <span>
+          <b>Commit: </b> {process.env.VERSION.commit}
+        </span>
+        <span>
+          <b>Bugs/Code: </b>
+          <a href={process.env.VERSION.package.bugs.url} target="_blank">
+            {process.env.VERSION.package.name}
+          </a>
+        </span>
+      </div>
     </footer>
   );
 };
