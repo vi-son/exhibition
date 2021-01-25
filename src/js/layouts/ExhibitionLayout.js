@@ -17,14 +17,14 @@ import PodcastBlock from "./blocks/PodcastBlock.js";
 
 import { get, BASE_URL } from "../api/api.js";
 
-import "../../sass/ExhibitionLayout.sass";
+import "@sass/layouts/ExhibitionLayout.sass";
 
 export default ({ id, type }) => {
   const [content, setContent] = useState({});
   const [blocks, setBlocks] = useState([]);
 
   useEffect(() => {
-    get(`/pages/${id}`).then(d => {
+    get(`/pages/${id}`).then((d) => {
       setContent(d);
       setBlocks(d.content.blocks);
     });
@@ -52,7 +52,7 @@ export default ({ id, type }) => {
               <IconBackward /> <span className="text">Zum Foyer</span>
             </Link>
 
-            {blocks.map(block => {
+            {blocks.map((block) => {
               switch (block._key) {
                 case "textblock":
                   return <Textblock key={block._uid} content={block} />;

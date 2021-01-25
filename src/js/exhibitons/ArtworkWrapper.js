@@ -4,13 +4,11 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import loadable from "@loadable/component";
 // Style imports
-import "../../sass/exhibitions/ArtworkWrapper.sass";
+import "@sass/exhibitions/ArtworkWrapper.sass";
 // SVG imports
 import IconForward from "../../../assets/svg/forward.light.svg";
 // Artwork imports
 import Artwork from "./Artwork.js";
-import Logo from "artwork.logo/js/Logo.js";
-import AudiovisIO from "artwork.audiovisio/js/audiovis.io.js";
 
 const ArtworkWrapper = ({ children, exhibitionComponent, content }) => {
   const [meta, setMeta] = useState(true);

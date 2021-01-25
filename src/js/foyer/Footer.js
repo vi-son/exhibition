@@ -5,7 +5,7 @@ import MixingSenses from "../../../assets/svg/mixing-senses.svg";
 import IconInstagram from "../../../assets/svg/instagram.svg";
 import IconTwitter from "../../../assets/svg/twitter.svg";
 // Style imports
-import "../../sass/foyer/Footer.sass";
+import "@sass/foyer/Footer.sass";
 
 const Twitter = ({ url }) => {
   return (
@@ -27,7 +27,7 @@ const FoyerFooter = () => {
   return (
     <footer className="foyer-footer">
       <div className="feedback-hint">
-        <h5>Wir freuen uns über Feedback</h5>
+        <h4 className="title">Wir freuen uns über Feedback</h4>
         <p className="text">
           Du hast Wünsche, Ideen, Verbesserungsvorschläge oder auch einfach nur
           ein Lob? Für solche Fälle haben wir ein Feedback-Formular für dich

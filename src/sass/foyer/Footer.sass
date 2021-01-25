@@ -1,17 +1,25 @@
+@import @vi.son/rouge/1-settings/_breakpoints.sass
+@import @vi.son/rouge/2-tools/_media-queries.sass
+
 .foyer-footer
-  padding: 60px 20vw 200px
   display: flex
   flex-direction: column
+  line-height: 1.2
+  padding: 60px 30px 200px
+  +from($tablets)
+    padding: 60px 20vw 200px
   h3, h5, ul, li, a
     color: var(--color-darkness)
   .columns
     display: grid
-    grid-template-columns: repeat(2, 1fr)
-    grid-gap: 60px
+    grid-template-columns: repeat(1, 1fr)
+    grid-gap: 20px
+    +from($tablets)
+      grid-template-columns: repeat(2, 1fr)
+      grid-gap: 60px
     .list
       margin-left: 10px
       opacity: 0.75
-
       li
         display: flex
         align-items: center
@@ -30,12 +38,18 @@
               fill: var(--color-curacao)
 
   .feedback-hint
-    max-width: 60ch
-    margin-bottom: 40px
+    line-height: 1.4
+    margin-bottom: 60px
+    display: flex
+    flex-direction: column
+    .title
+      margin-bottom: 20px
     .text
       margin-bottom: 30px
     .btn-feedback
-      padding: 20px
+      align-self: flex-end
+      flex-grow: 1
+      padding: 15px 20px
       background: var(--color-darkness)
       color: var(--color-snow)
       &:hover
