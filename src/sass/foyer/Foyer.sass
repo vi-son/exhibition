@@ -1,3 +1,7 @@
+@import @vi.son/rouge/1-settings/_breakpoints.sass
+@import @vi.son/rouge/2-tools/_media-queries.sass
+
+
 @keyframes fadeInButtons
   0%
     opacity: 0
@@ -125,9 +129,12 @@
     padding: 60px 60px 200px
     width: 90vw
     margin: 0 auto
-    display: grid
-    grid-template-columns: 1fr 1fr
-    grid-gap: 30px
+    display: flex
+    flex-direction: column
+    +from($tablets)
+      display: grid
+      grid-template-columns: 1fr 1fr
+      grid-gap: 30px
 
   .header-text
     color: var(--color-ultradark)
@@ -137,6 +144,8 @@
     .museum-title
       text-align: center
       color: var(--color-curacao)
+      line-height: 1.2
+      margin-bottom: 40px
     .museum-subtitle
       color: var(--color-darkness)
       line-height: 1.2

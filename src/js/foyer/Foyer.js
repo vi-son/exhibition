@@ -14,7 +14,7 @@ import Room from "./Room.js";
 import VisonMixingSenses from "../../../assets/svg/vi.son-mixing-senses.svg";
 import IconMouse from "../../../assets/svg/mouse.svg";
 // Style imports
-import "../../sass/Foyer.sass";
+import "@sass/foyer/Foyer.sass";
 // GLSL imports
 import vertexShader from "../../glsl/background.vert.glsl";
 import fragmentShader from "../../glsl/background.frag.glsl";
@@ -38,7 +38,7 @@ export default ({ exhibitions }) => {
     "Wie entstehen Farben zu unterschiedlichen Klängen",
     "Hat jeder Ton eine zugeordnete Farbe?",
     "Sieht Musik für jeden anders aus?",
-    "Kann man Musik nur mit dem Ohr höhren, oder gar fühlen oder sogar sehen?"
+    "Kann man Musik nur mit dem Ohr höhren, oder gar fühlen oder sogar sehen?",
   ]);
 
   useEffect(() => {
@@ -49,7 +49,7 @@ export default ({ exhibitions }) => {
     // Renderer
     const renderer = new THREE.WebGLRenderer({
       canvas: canvasRef.current,
-      antialias: 1
+      antialias: 1,
     });
     renderer.setSize(size.width, size.height);
     // Raycaster
@@ -92,7 +92,7 @@ export default ({ exhibitions }) => {
       "/assets/mp3/foyer/foyer-backgorund-20201117.mp3";
     var foyerMusic = new THREE.Audio(listener);
     // load a sound and set it as the Audio object's buffer
-    audioLoader.load(filePathFoyerMusic, function(buffer) {
+    audioLoader.load(filePathFoyerMusic, function (buffer) {
       foyerMusic.setBuffer(buffer);
       foyerMusic.setLoop(true);
       foyerMusic.setVolume(0.5);
@@ -109,10 +109,10 @@ export default ({ exhibitions }) => {
       0xffd4a2,
       0xa7e2d8,
       0x7a63a7,
-      0x4d5082
+      0x4d5082,
     ];
     const audioSpheres = new THREE.Group();
-    sentenceAudios.forEach(s => {
+    sentenceAudios.forEach((s) => {
       const filePath = `/assets/mp3/intro/${s}`;
       const sound = new THREE.Audio(listener);
       const spread = 5.0;
@@ -138,7 +138,7 @@ export default ({ exhibitions }) => {
       audioSpheres.layers.enable(LAYER_RAYCASTABLE);
       scene.add(audioSpheres);
       // Load a sound and set it as the Audio object's buffer
-      audioLoader.load(filePath, function(buffer) {
+      audioLoader.load(filePath, function (buffer) {
         sound.setBuffer(buffer);
         sound.position.copy(position);
         sound.setVolume(1.0);
@@ -166,9 +166,9 @@ export default ({ exhibitions }) => {
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
       uniforms: {
-        uResolution: { value: new THREE.Vector2(size.width, size.height) }
+        uResolution: { value: new THREE.Vector2(size.width, size.height) },
       },
-      depthWrite: false
+      depthWrite: false,
     });
     var planeGeometry = new THREE.PlaneGeometry(2, 2);
     var backgroundPlane = new THREE.Mesh(planeGeometry, backgroundMaterial);
@@ -245,7 +245,7 @@ export default ({ exhibitions }) => {
           }
         }
       } else {
-        audioSpheres.children.forEach(a => {
+        audioSpheres.children.forEach((a) => {
           if (!a.triggered) {
             a.scale.set(1.0, 1.0, 1.0);
             a.material.color.set(0x141827);
@@ -266,7 +266,7 @@ export default ({ exhibitions }) => {
     }
 
     const clock = new THREE.Clock();
-    var render = function() {
+    var render = function () {
       requestAnimationFrame(render);
       controls.update();
       TWEEN.update();
@@ -298,7 +298,7 @@ export default ({ exhibitions }) => {
       while (backgroundScene.children.length > 0) {
         backgroundScene.remove(backgroundScene.children[0]);
       }
-      sounds.forEach(s => {
+      sounds.forEach((s) => {
         s.pause();
       });
       foyerMusic.pause();
@@ -356,7 +356,7 @@ export default ({ exhibitions }) => {
             Viel Spaß beim Besuch unserer digitalen Ausstellung!
           </article>
         </div>
-        {exhibitions.map(exhibit => {
+        {exhibitions.map((exhibit) => {
           return <Room key={exhibit.id} exhibit={exhibit} />;
         })}
       </div>

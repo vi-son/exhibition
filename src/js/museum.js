@@ -7,7 +7,7 @@ import { get } from "./api/api.js";
 import Foyer from "./foyer/Foyer.js";
 import ExhibitionLayout from "./layouts/ExhibitionLayout.js";
 // Style imports
-import "../sass/museum.sass";
+import "@sass/museum.sass";
 
 const Museum = () => {
   const [content, setContent] = useState([]);
@@ -17,10 +17,10 @@ const Museum = () => {
       window.addEventListener("load", () => {
         navigator.serviceWorker
           .register("/sw.js")
-          .then(registration => {
+          .then((registration) => {
             console.log("Serviceworker registered: ", registration);
           })
-          .catch(registrationError => {
+          .catch((registrationError) => {
             console.log(
               "Serviceworker registration failed: ",
               registrationError
@@ -34,10 +34,10 @@ const Museum = () => {
     if (process.env.NODE_ENV === "production") {
       initServiceWorker();
     }
-    get("site/children").then(pages => {});
-    get("site/children?select=id,title,content,blueprint").then(pages => {
+    get("site/children").then((pages) => {});
+    get("site/children?select=id,title,content,blueprint").then((pages) => {
       const exhibitions = pages
-        .filter(p => p.blueprint.title === "Exhibit")
+        .filter((p) => p.blueprint.title === "Exhibit")
         .sort((a, b) => {
           return a.content.order - b.content.order;
         });
@@ -48,7 +48,7 @@ const Museum = () => {
   return (
     <Router>
       <Switch>
-        {content.map(c => {
+        {content.map((c) => {
           return (
             <Route key={c.id} path={`/${c.id}`}>
               <ExhibitionLayout id={c.id} type={c.content.type} />
