@@ -1,7 +1,6 @@
 // node_modules imports
 import React from "react";
 // SVG imports
-import MixingSenses from "../../../assets/svg/mixing-senses.svg";
 import IconInstagram from "../../../assets/svg/instagram.svg";
 import IconTwitter from "../../../assets/svg/twitter.svg";
 // Style imports
@@ -182,9 +181,6 @@ const FoyerFooter = () => {
           </li>
         </ul>
       </small>
-      <div className="logo-wrapper">
-        <MixingSenses />
-      </div>
       <small className="copyright">2020 • mixing-senses.art</small>
       <div className="version">
         <span>

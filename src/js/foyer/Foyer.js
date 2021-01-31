@@ -225,6 +225,7 @@ export default ({ exhibitions }) => {
       onMouseUp,
       false
     );
+    const touchUpHandler = window.addEventListener("touchup", onMouseUp, false);
 
     // Render loop
     var raycast = () => {
