@@ -88,7 +88,8 @@
       top: 85vh
       display: flex
       justify-content: center
-
+      +until($tablets)
+        top: 80vh
       .scroll-down-button
         position: static
         display: flex
@@ -103,6 +104,10 @@
 
   .instruction
     position: absolute
+    +until($tablets)
+      top: 20px 
+      left: 10px
+      transform: scale(0.75)
     top: calc(100vh - 120px)
     left: 50px
     display: flex
@@ -126,15 +131,17 @@
   .content
     z-index: +99
     display: inline-block
-    padding: 60px 60px 200px
-    width: 90vw
     margin: 0 auto
     display: flex
     flex-direction: column
-    +from($tablets)
+    width: 100vw
+    padding: 60px 20px 40px
+    +from($desktops)
+      padding: 60px 60px 200px
       display: grid
       grid-template-columns: 1fr 1fr
       grid-gap: 30px
+      width: 90vw
 
   .header-text
     color: var(--color-ultradark)
@@ -146,6 +153,8 @@
       color: var(--color-curacao)
       line-height: 1.2
       margin-bottom: 40px
+      +until($tablets)
+        font-size: 2.75rem
     .museum-subtitle
       color: var(--color-darkness)
       line-height: 1.2
@@ -154,15 +163,16 @@
       max-width: 80ch
       margin: 0 auto
       font-family: Space Mono
+      +until($tablets)
+        font-size: 1.125rem
     .intro-text
       margin: 50px 0
       align-self: center
       max-width: 100ch
 
   .exhibition-entry
-    height: 200px
     display: grid
-    grid-template-columns: 200px auto
+    grid-template-columns: 30% 70%
     margin-bottom: 10px
     border-radius: 10px
     transition: box-shadow 600ms ease
@@ -173,8 +183,15 @@
     line-height: 1.4
     background: var(--color-oldsnow)
     overflow: hidden
+    +until($tablets)
+      margin-bottom: 40px
+    +from($tablets)
+      height: 200px
     &:hover
       box-shadow: 0 80px 120px var(--color-dirtysnow-20)
+
+    +until($tablets)
+      grid-template-columns: 1fr
 
     &.meta
       grid-template-columns: 1fr
@@ -198,13 +215,17 @@
         cursor: default
 
     .title-image
+      +until($tablets)
+        height: 120px
       height: 100%
       background-size: cover
       background-position: center
       background-color: var(--color-dirtysnow-20)
 
     .column
-      padding-left: 60px
+      padding: 20px
+      +from($tablets)
+        padding-left: 60px
       display: flex
       flex-direction: column
       justify-content: center
@@ -213,6 +234,9 @@
       height: 100%
       .title
         color: var(--color-darkness)
+      h3.title
+        +until($tablets)
+          font-size: 3rem
       .shortdescription
         color: var(--color-darkness)
         text-align: left
