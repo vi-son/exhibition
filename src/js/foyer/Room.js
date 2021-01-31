@@ -7,19 +7,19 @@ const Room = ({ exhibit }) => {
       ? exhibit.content.titleimage[0].url
       : "";
   return (
-    <Link to={exhibit.content.active ? `/${exhibit.id}` : "#"}>
+    <a href={exhibit.content.externalURL}>
       <div
         className={[
           "exhibition-entry",
           !exhibit.content.active ? "draft" : "",
-          exhibit.content.type
+          exhibit.content.type,
         ].join(" ")}
       >
         {exhibit.content.type === "art" ? (
           <div
             className="title-image"
             style={{
-              backgroundImage: `url(${pictureUrl})`
+              backgroundImage: `url(${pictureUrl})`,
             }}
           />
         ) : (
@@ -36,7 +36,7 @@ const Room = ({ exhibit }) => {
           {exhibit.content.active ? <></> : <h6>Demnächst verfügbar</h6>}
         </div>
       </div>
-    </Link>
+    </a>
   );
 };
 
