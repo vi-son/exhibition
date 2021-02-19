@@ -1,6 +1,6 @@
 {
   "name": "vi.son-exhibition",
-  "version": "0.0.22",
+  "version": "0.0.25",
   "description": "mixing-senses.art exhibition frame",
   "main": "src/js/index.html",
   "scripts": {
