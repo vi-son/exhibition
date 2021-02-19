@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 // Local imports
 import { get } from "./api/api.js";
 import Foyer from "./foyer/Foyer.js";
+import LocalRoom from "./foyer/LocalRoom.js";
 // Style imports
 import "@sass/museum.sass";
 
@@ -41,13 +42,22 @@ const Museum = () => {
           return a.content.order - b.content.order;
         });
       setContent(exhibitions);
-      console.log(exhibitions);
     });
   }, []);
 
   return (
     <Router>
       <Switch>
+        {content
+          .filter((e) => e.type !== "meta")
+          .map((e) => {
+            return (
+              <Route key={e.id} path={`/${e.id}`}>
+                <LocalRoom content={e} />
+              </Route>
+            );
+          })}
+
         <Route path="/">
           <Foyer exhibitions={content} />
         </Route>

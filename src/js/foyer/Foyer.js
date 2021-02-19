@@ -1,7 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom";
-import { Link } from "react-router-dom";
 import * as THREE from "three";
+import Stats from "three/examples/jsm/libs/stats.module.js";
+import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
+import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { PositionalAudioHelper } from "three/examples/jsm/helpers/PositionalAudioHelper.js";
 import TWEEN from "@tweenjs/tween.js";
@@ -14,7 +17,7 @@ import Room from "./Room.js";
 import VisonMixingSenses from "../../../assets/svg/vi.son-mixing-senses.svg";
 import IconMouse from "../../../assets/svg/mouse.svg";
 // Style imports
-import "@sass/foyer/Foyer.sass";
+import "@sass/6-components/Foyer.sass";
 // GLSL imports
 import vertexShader from "../../glsl/background.vert.glsl";
 import fragmentShader from "../../glsl/background.frag.glsl";
@@ -52,6 +55,13 @@ export default ({ exhibitions }) => {
       antialias: 1,
     });
     renderer.setSize(size.width, size.height);
+    // Stats
+    const stats = new Stats();
+    if (process.env.NODE_ENV === "development") {
+      stats.domElement.style.position = "absolute";
+      stats.domElement.style.top = "0px";
+      canvasWrapperRef.current.appendChild(stats.domElement);
+    }
     // Raycaster
     const LAYER_RAYCASTABLE = 1;
     const raycaster = new THREE.Raycaster();
@@ -73,6 +83,20 @@ export default ({ exhibitions }) => {
     controls.enableDamping = true;
     controls.enableRotate = false;
     controls.dampingFactor = 0.9;
+    // Effects
+    const renderPass = new RenderPass(scene, camera);
+    const bloomPass = new UnrealBloomPass(
+      new THREE.Vector2(window.innerWidth, window.innerHeight),
+      1.5,
+      0.4,
+      0.85
+    );
+    bloomPass.threshold = 1.0;
+    bloomPass.strength = 1.0;
+    bloomPass.radius = 10.0;
+    const bloomComposer = new EffectComposer(renderer);
+    bloomComposer.addPass(renderPass);
+    bloomComposer.addPass(bloomPass);
 
     // Center sphere
     var geometry = new THREE.SphereGeometry(0.3, 32, 32);
@@ -127,7 +151,7 @@ export default ({ exhibitions }) => {
       var sphereGeometry = new THREE.SphereBufferGeometry(0.05, 32, 32);
       var sphere = new THREE.Mesh(
         sphereGeometry,
-        new THREE.MeshBasicMaterial(0x141827)
+        new THREE.MeshBasicMaterial({ color: new THREE.Color(20, 24, 39) })
       );
       const randomIdx = Math.floor(colorPalette.length * Math.random());
       sphere.color = colorPalette[randomIdx];
@@ -193,6 +217,12 @@ export default ({ exhibitions }) => {
       false
     );
 
+    const scrollHandler = window.addEventListener(
+      "scroll",
+      onWindowResize,
+      false
+    );
+
     // Event listener
     function onMouseMove(e) {
       mousePosition.x = ((e.clientX - size.x) / size.width) * 2 - 1;
@@ -232,24 +262,33 @@ export default ({ exhibitions }) => {
       raycaster.setFromCamera(mousePosition, camera);
       hit = raycaster.intersectObjects(scene.children, true);
       if (hit.length > 0) {
-        hit[0].object.scale.set(2.0, 2.0, 2.0);
-        hit[0].object.material.color.set(hit[0].object.color);
+        const { object } = hit[0];
+        const t = new TWEEN.Tween(object).to(
+          {
+            scale: { x: 2.0, y: 2.0, z: 2.0 },
+          },
+          100
+        );
+        t.start();
+        object.material.color.set(object.color);
         if (mouseDown) {
           setLearned(true);
-          hit[0].object.triggered = true;
-          hit[0].object.material.color.set(hit[0].object.color);
-          hit[0].object.scale.set(2.0, 2.0, 2.0);
-          sounds.get(hit[0].object.id).play();
-          playingSound = sounds.get(hit[0].object.id);
-          addLine(hit[0].object.position, hit[0].object);
-          if (audioAnalyser === undefined) {
-          }
+          object.triggered = true;
+          object.material.color.set(object.color);
+          object.scale.set(2.0, 2.0, 2.0);
+          sounds.get(object.id).play();
+          playingSound = sounds.get(object.id);
+          addLine(object.position, object);
         }
       } else {
         audioSpheres.children.forEach((a) => {
           if (!a.triggered) {
-            a.scale.set(1.0, 1.0, 1.0);
-            a.material.color.set(0x141827);
+            const t = new TWEEN.Tween(a).to(
+              { scale: { x: 1.0, y: 1.0, z: 1.0 } },
+              300
+            );
+            t.start();
+            a.material.color.set(20, 24, 39);
           }
         });
       }
@@ -267,10 +306,10 @@ export default ({ exhibitions }) => {
     }
 
     const clock = new THREE.Clock();
-    var render = function () {
+    var render = function (time) {
       requestAnimationFrame(render);
       controls.update();
-      TWEEN.update();
+      TWEEN.update(time);
 
       raycast();
 
@@ -289,6 +328,9 @@ export default ({ exhibitions }) => {
         const remappedCenter = Math.min(0.3 + 1.0 / (freq / 30.0), 2.0);
         centerSphere.scale.set(remappedCenter, remappedCenter, remappedCenter);
       }
+      if (process.env.NODE_ENV === "development") {
+        stats.update();
+      }
     };
     render();
 
@@ -304,6 +346,7 @@ export default ({ exhibitions }) => {
       });
       foyerMusic.pause();
       window.removeEventListener("resize", resizeHandler);
+      window.removeEventListener("scroll", scrollHandler);
     };
   }, []);
 

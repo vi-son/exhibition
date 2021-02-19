@@ -1,0 +1,59 @@
+@import @vi.son/rouge/1-settings/_breakpoints.sass
+@import @vi.son/rouge/2-tools/_media-queries.sass
+
+@import ../2-tools/_animations.sass
+
+.local-room
+  background: var(--color-curacao)
+  color: var(--color-snow)
+  +from($desktops)
+    padding: 40px
+  .header
+    padding: 40px
+    +from($desktops)
+      max-width: 960px
+      margin: 0 auto
+    .title,
+    .subtitle
+      flex-grow: 1
+      color: var(--color-snow)
+      text-align: left
+
+.blocks
+  display: grid
+  grid-template-columns: 1fr
+  grid-column-gap: 40px
+  min-height: 100vh
+  padding-bottom: 50px
+  +until($tablets)
+    padding-bottom: 120px
+  +from($tablets)
+    grid-template-columns: 1fr 1fr
+    grid-column-gap: 40px
+  +from($desktops)
+    max-width: 960px
+    margin: 0 auto
+
+.block
+  &.text
+    .heading,
+    .preheading
+      color: var(--color-snow)
+    +from($tablets)
+      grid-column: span 2
+
+  &.podcast
+    width: calc(100% - 2 * 20px)
+    align-self: start
+    justify-self: center
+    opacity: 0
+    animation: podcastFadeIn 1s 500ms ease
+    animation-fill-mode: forwards
+    @for $i from 1 through 30
+      &:nth-child(1n + #{$i})
+        animation-delay: $i * 300ms
+    &:nth-child(2n+1)
+      +from($tablets)
+        margin-top: 40px
+    .player
+      display: flex
