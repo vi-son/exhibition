@@ -83,11 +83,12 @@
       animation: fadeInButtons 1s 10s ease
       animation-fill-mode: forwards
       opacity: 0
+      display: flex
       position: absolute
       width: 100vw
       top: 85vh
-      display: flex
       justify-content: center
+      transform: translateY(-100vh)
       +until($tablets)
         top: 80vh
       .scroll-down-button
@@ -201,10 +202,11 @@
       .column
         .title
           color: var(--color-snow)
+        .type
+          color: var(--color-snow)
         .shortdescription
           color: var(--color-snow)
           text-align: left
-
 
     &.draft
       background: var(--color-oldsnow)
@@ -232,11 +234,8 @@
       align-items: flex-start
       flex-grow: 1
       height: 100%
-      .title
-        color: var(--color-darkness)
-      h3.title
-        +until($tablets)
-          font-size: 3rem
+      .type
+        color: var(--color-ultradark)
       .shortdescription
         color: var(--color-darkness)
         text-align: left

@@ -4,7 +4,7 @@ import React from "react";
 import IconInstagram from "../../../assets/svg/instagram.svg";
 import IconTwitter from "../../../assets/svg/twitter.svg";
 // Style imports
-import "@sass/foyer/Footer.sass";
+import "@sass/6-components/Footer.sass";
 
 const Twitter = ({ url }) => {
   return (
@@ -14,7 +14,7 @@ const Twitter = ({ url }) => {
   );
 };
 
-const Insta = ({ url }) => {
+const Instagram = ({ url }) => {
   return (
     <a href={url} target="_blank" className="icon">
       <IconInstagram />
@@ -30,7 +30,9 @@ const FoyerFooter = () => {
         <p className="text">
           Du hast Wünsche, Ideen, Verbesserungsvorschläge oder auch einfach nur
           ein Lob? Für solche Fälle haben wir ein Feedback-Formular für dich
-          eingerichtet. In jedem Fall schon mal ganz herzlichen Dank 👍
+          eingerichtet.
+          <br />
+          In jedem Fall schon mal ganz herzlichen Dank 👍
         </p>
         <a
           className="btn-feedback"
@@ -48,13 +50,13 @@ const FoyerFooter = () => {
           <ul className="list">
             <li>
               <a href="https://www.instagram.com/thekalanguhood/">Kalangu</a>
-              <Insta url={"https://www.instagram.com/thekalanguhood/"} />
+              <Instagram url={"https://www.instagram.com/thekalanguhood/"} />
             </li>
             <li>
               <a href="https://pendeloque.de/" target="_blank">
                 Pendeloque Lichtkunst
               </a>
-              <Insta url={"https://www.instagram.com/thekalanguhood/"} />
+              <Instagram url={"https://www.instagram.com/thekalanguhood/"} />
               <Twitter url={"https://twitter.com/pendeloque_art"} />
             </li>
           </ul>
@@ -76,7 +78,7 @@ const FoyerFooter = () => {
               <a href="https://thearticle.hypotheses.org/" target="_blank">
                 the article
               </a>
-              <Insta url={"https://www.instagram.com/the_article_/"} />
+              <Instagram url={"https://www.instagram.com/the_article_/"} />
             </li>
             <li>
               <a href="https://getkirby.com/" target="_blank">
@@ -101,7 +103,7 @@ const FoyerFooter = () => {
               <a href="https://www.torial.com/kira.kramer" target="_blank">
                 Kira Kramer
               </a>
-              <Insta url={"https://www.instagram.com/januskoepfig/"} />
+              <Instagram url={"https://www.instagram.com/januskoepfig/"} />
             </li>
             <li>
               <b>kunstverein hockenheim</b>
@@ -110,7 +112,7 @@ const FoyerFooter = () => {
               <a href="https://www.instagram.com/nic.kda/" target="_blank">
                 Nicole Fuchs
               </a>
-              <Insta url="https://www.instagram.com/nic.kda/" />
+              <Instagram url="https://www.instagram.com/nic.kda/" />
             </li>
             <li>
               <a href="http:www.kunstverein-hockenheim.de/" target="_blank">
@@ -130,7 +132,7 @@ const FoyerFooter = () => {
               >
                 Leon Fuchs
               </a>
-              <Insta url={"https://www.instagram.com/thekalanguhood/"} />
+              <Instagram url={"https://www.instagram.com/thekalanguhood/"} />
             </li>
             <li>
               <a href="http://www.facebook.com/nmbr4" target="_blank">
@@ -159,7 +161,7 @@ const FoyerFooter = () => {
               <a href="https://www.guidoschmidt.cc" target="_blank">
                 Guido Schmidt
               </a>
-              <Insta url={"https://www.instagram.com/guidoschmidt.cc"} />
+              <Instagram url={"https://www.instagram.com/guidoschmidt.cc"} />
             </li>
           </ul>
         </div>
