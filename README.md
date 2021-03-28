@@ -1,3 +1,5 @@
+[![CI](https://github.com/vi-son/exhibition/actions/workflows/deploy.yml/badge.svg)](https://github.com/vi-son/exhibition/actions/workflows/deploy.yml)
+
 # vi.son exhibition space
 ## virtual exhibition
 
