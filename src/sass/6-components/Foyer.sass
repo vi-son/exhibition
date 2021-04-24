@@ -102,6 +102,11 @@
     display: flex
     flex-direction: column
     line-height: 1.0
+    +until($tablets)
+      top: -10px
+      svg
+        transform: scale(0.65)
+
 
   .instruction
     position: absolute

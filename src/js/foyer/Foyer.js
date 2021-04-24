@@ -8,6 +8,8 @@ import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPa
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { PositionalAudioHelper } from "three/examples/jsm/helpers/PositionalAudioHelper.js";
 import TWEEN from "@tweenjs/tween.js";
+import { utils } from "@vi.son/components";
+const { mobileCheck } = utils;
 // Local imports
 import useStateCallback from "../utils/useStateCallback.js";
 import { get } from "../api/api.js";
@@ -44,6 +46,8 @@ export default ({ exhibitions }) => {
     "Kann man Musik nur mit dem Ohr höhren, oder gar fühlen oder sogar sehen?",
   ]);
 
+  const isMobile = mobileCheck();
+
   useEffect(() => {
     // Size
     let size = canvasWrapperRef.current.getBoundingClientRect();
@@ -54,6 +58,8 @@ export default ({ exhibitions }) => {
       canvas: canvasRef.current,
       antialias: 1,
     });
+    renderer.autoClear = false;
+    renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(size.width, size.height);
     // Stats
     const stats = new Stats();
@@ -139,8 +145,7 @@ export default ({ exhibitions }) => {
     sentenceAudios.forEach((s) => {
       const filePath = `/assets/mp3/intro/${s}`;
       const sound = new THREE.Audio(listener);
-      const spread = 5.0;
-      const radius = 3.0;
+      const radius = isMobile ? 2.0 : 3.0;
       const lat = Math.random() * Math.PI * 2.0;
       const lng = Math.PI + Math.random() * -Math.PI;
       const position = new THREE.Vector3(
@@ -148,7 +153,11 @@ export default ({ exhibitions }) => {
         radius * Math.sin(lat) * Math.sin(lng),
         radius * Math.cos(lng)
       );
-      var sphereGeometry = new THREE.SphereBufferGeometry(0.05, 32, 32);
+      var sphereGeometry = new THREE.SphereBufferGeometry(
+        isMobile ? 0.1 : 0.05,
+        32,
+        32
+      );
       var sphere = new THREE.Mesh(
         sphereGeometry,
         new THREE.MeshBasicMaterial({ color: new THREE.Color(20, 24, 39) })
@@ -190,14 +199,18 @@ export default ({ exhibitions }) => {
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
       uniforms: {
-        uResolution: { value: new THREE.Vector2(size.width, size.height) },
+        uResolution: {
+          value: new THREE.Vector2(
+            size.width * window.devicePixelRatio,
+            size.height * window.devicePixelRatio
+          ),
+        },
       },
       depthWrite: false,
     });
     var planeGeometry = new THREE.PlaneGeometry(2, 2);
     var backgroundPlane = new THREE.Mesh(planeGeometry, backgroundMaterial);
     backgroundScene.add(backgroundPlane);
-    renderer.autoClear = false;
 
     function onWindowResize() {
       if (canvasWrapperRef.current) {
@@ -205,8 +218,8 @@ export default ({ exhibitions }) => {
         camera.aspect = size.width / size.height;
         camera.updateProjectionMatrix();
         backgroundMaterial.uniforms.uResolution.value = new THREE.Vector2(
-          size.width,
-          size.height
+          size.width * window.devicePixelRatio,
+          size.height * window.devicePixelRatio
         );
         renderer.setSize(size.width, size.height);
       }
