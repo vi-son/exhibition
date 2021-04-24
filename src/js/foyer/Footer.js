@@ -126,13 +126,10 @@ const FoyerFooter = () => {
           <h5>• musik</h5>
           <ul className="list">
             <li>
-              <a
-                href="https://www.instagram.com/thekalanguhood/"
-                target="_blank"
-              >
+              <a href="https://www.instagram.com/kalangu.hood/" target="_blank">
                 Leon Fuchs
               </a>
-              <Instagram url={"https://www.instagram.com/thekalanguhood/"} />
+              <Instagram url={"https://www.instagram.com/kalangu.hood/"} />
             </li>
             <li>
               <a href="http://www.facebook.com/nmbr4" target="_blank">
