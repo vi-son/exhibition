@@ -49,14 +49,16 @@ const FoyerFooter = () => {
           <h4>• ein projekt von</h4>
           <ul className="list">
             <li>
-              <a href="https://www.instagram.com/thekalanguhood/">Kalangu</a>
-              <Instagram url={"https://www.instagram.com/thekalanguhood/"} />
+              <a href="https://www.instagram.com/kalangu.hood/">Kalangu</a>
+              <Instagram url={"https://www.instagram.com/kalangu.hood/"} />
             </li>
             <li>
               <a href="https://pendeloque.de/" target="_blank">
                 Pendeloque Lichtkunst
               </a>
-              <Instagram url={"https://www.instagram.com/thekalanguhood/"} />
+              <Instagram
+                url={"https://www.instagram.com/pendeloquelichtkunst/"}
+              />
               <Twitter url={"https://twitter.com/pendeloque_art"} />
             </li>
           </ul>
